@@ -5,11 +5,11 @@ const PREFS_NAME = "name";
 const PREFS_PHONE = "phone";
 const PREFS_UNIVERSITY = "university";
 
-class UserDataRepository {
+class UserRepository {
 
  final SharedPreferences prefs;
 
- const UserDataRepository(this.prefs);
+ const UserRepository(this.prefs);
 
  User getUser() {
    var name = prefs.getString(PREFS_NAME);

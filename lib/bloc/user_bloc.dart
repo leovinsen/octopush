@@ -7,7 +7,7 @@ import 'package:bloc/bloc.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
 
-  final UserDataRepository _repo;
+  final UserRepository _repo;
 
   UserBloc(this._repo);
 

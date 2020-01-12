@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
-import 'repository/user_data_repository.dart';
+import 'repository/user_repository.dart';
 import 'root_page.dart';
 
 void main() async {
@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     SharedPreferences.getInstance().then((prefs) => {
           setState(() {
-            _userRepo = UserDataRepository(prefs);
+            _userRepo = UserRepository(prefs);
           })
         });
   }
