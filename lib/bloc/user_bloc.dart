@@ -1,5 +1,5 @@
 import 'package:octopush/model/user.dart';
-import 'package:octopush/repository/user_data_repository.dart';
+import 'package:octopush/repository/user_repository.dart';
 
 import 'user_event.dart';
 import 'user_state.dart';
