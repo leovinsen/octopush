@@ -1,3 +1,4 @@
+import 'package:octopush/model/user.dart';
 import 'package:octopush/repository/user_data_repository.dart';
 
 import 'user_event.dart';
@@ -19,6 +20,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       var user = _repo.getUser();
       yield user == null ? UserNotFound() : UserFound(user);
     }
-  }
 
+    if (event is AddUser){
+      var user = User(
+        event.name,
+        event.phone,
+        event.university
+      );
+      _repo.saveUser(user);
+
+      yield UserFound(user);
+    }
+
+    if (event is ClearUser){
+      await _repo.clearUser();
+
+      yield UserNotFound();
+    }
+  }
 }

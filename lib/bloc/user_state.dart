@@ -33,6 +33,18 @@ class UserFound extends UserState {
   }
 }
 
+// class UserAdded extends UserState {
+//   const UserAdded();
+
+//   @override
+//   List<Object> get props => null;
+
+//   @override
+//   String toString() {
+//     return '$UserAdded { } ';
+//   }
+// }
+
 class UserNotFound extends UserState {
   const UserNotFound();
 

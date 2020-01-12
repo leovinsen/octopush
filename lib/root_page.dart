@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/user_bloc.dart';
 import 'bloc/user_event.dart';
 import 'bloc/user_state.dart';
+import 'screens/registration_page.dart';
 
 class RootPage extends StatelessWidget {
   @override
@@ -18,14 +19,14 @@ class RootPage extends StatelessWidget {
 
         if (state is UserFound) {
           return Center(
-            child: Text('Home page'),
+            child: RaisedButton(
+              child: Text('Remove user'),
+              onPressed: () => BlocProvider.of<UserBloc>(context).add(ClearUser()),),
           );
         }
 
         if (state is UserNotFound) {
-          return Center(
-            child: Text('Onboarding page'),
-          );
+          return RegistrationPage();
         }
 
         return Container();
