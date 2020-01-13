@@ -11,31 +11,44 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this._repo);
 
+  User _activeUser;
+
+  User get activeUser => _activeUser;
+
   @override
   UserState get initialState => AppStarted();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
     if (event is GetUser){
-      var user = _repo.getUser();
-      yield user == null ? UserNotFound() : UserFound(user);
+      _activeUser = _repo.getUser();
+      yield _activeUser == null ? UserNotFound() : UserFound(_activeUser);
     }
 
     if (event is AddUser){
-      var user = User(
+      _activeUser = User(
         event.name,
         event.phone,
         event.university
       );
-      _repo.saveUser(user);
+      _repo.saveUser(_activeUser);
 
-      yield UserFound(user);
+      yield UserFound(_activeUser);
     }
 
     if (event is ClearUser){
       await _repo.clearUser();
+      //Invalidate cache
+      _activeUser = null;
 
       yield UserNotFound();
     }
+  }
+
+    @override
+  void onTransition(Transition<UserEvent, UserState> transition) {
+    // TODO: implement onTransition
+    super.onTransition(transition);
+    print(transition);
   }
 }
