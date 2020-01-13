@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
 import 'package:octopush/bloc/user_event.dart';
-import 'package:octopush/bloc/user_state.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
