@@ -14,11 +14,12 @@ class UserDataRepository {
   const UserDataRepository(this.prefs);
 
   UserData getUserData(){
-    var job = Job.values[prefs.getInt(PREFS_JOB)];
+    int jobIndex = prefs.getInt(PREFS_JOB);
     var balance = prefs.getDouble(PREFS_BALANCE);
 
-    if(job == null) return null;
+    if(jobIndex == null) return null;
 
+    var job = Job.values[jobIndex];
     UserData userData = UserData(job, balance);
 
     return userData;
