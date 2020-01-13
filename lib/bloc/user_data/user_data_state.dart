@@ -5,8 +5,8 @@ abstract class UserDataState extends Equatable {
   const UserDataState();
 }
 
-class UserDataBlocInit extends UserDataState {
-  const UserDataBlocInit();
+class UserDataBlocCreated extends UserDataState {
+  const UserDataBlocCreated();
 
   @override
   List<Object> get props => null;

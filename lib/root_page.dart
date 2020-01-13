@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:octopush/bloc/user_data/user_data_bloc.dart';
+import 'package:octopush/repository/user_data_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
 import 'bloc/user_event.dart';
 import 'bloc/user_state.dart';
+import 'screens/home_page.dart';
 import 'screens/registration_page.dart';
 
 class RootPage extends StatelessWidget {
+  final SharedPreferences _prefs;
+
+  RootPage(this._prefs);
+
+  // TODO : Replace BlocBuilder with BlocListener to send Navigation events
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
@@ -14,14 +23,12 @@ class RootPage extends StatelessWidget {
       builder: (_, state) {
         if (state is AppStarted) {
           BlocProvider.of<UserBloc>(context).add(GetUser());
-          return Container();
         }
 
         if (state is UserFound) {
-          return Center(
-            child: RaisedButton(
-              child: Text('Remove user'),
-              onPressed: () => BlocProvider.of<UserBloc>(context).add(ClearUser()),),
+          return BlocProvider<UserDataBloc>(
+            create: (_) => UserDataBloc(UserDataRepository(_prefs)),
+            child: HomePage(),
           );
         }
 
@@ -29,7 +36,9 @@ class RootPage extends StatelessWidget {
           return RegistrationPage();
         }
 
-        return Container();
+        return Center(
+          child: Text('a'),
+        );
       },
     );
   }

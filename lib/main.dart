@@ -27,12 +27,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   var _userRepo;
+  var _prefs;
 
   @override
   void initState() {
     super.initState();
     SharedPreferences.getInstance().then((prefs) => {
           setState(() {
+            _prefs = prefs;
             _userRepo = UserRepository(prefs);
           })
         });
@@ -44,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
         ? Center(child: Text('Splash Screen'))
         : BlocProvider(
             create: (_) => UserBloc(_userRepo),
-            child: RootPage(),
+            child: RootPage(_prefs),
           );
   }
 }

@@ -11,7 +11,7 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   UserDataBloc(this._repo);
 
   @override
-  UserDataState get initialState => UserDataBlocInit();
+  UserDataState get initialState => UserDataBlocCreated();
 
   @override
   Stream<UserDataState> mapEventToState(UserDataEvent event) async* {
@@ -36,6 +36,12 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
     if(event is ClearUserData){
       yield await _repo.clearUserData() ? UserDataUninitialized : UserDataError("Failed to clear user data"); 
     }
+  }
+
+  @override
+  void onTransition(Transition<UserDataEvent, UserDataState> transition) {
+    super.onTransition(transition);
+    print(transition);
   }
 
 }
