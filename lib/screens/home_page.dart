@@ -5,8 +5,6 @@ import 'package:octopush/bloc/user_data/user_data_event.dart';
 import 'package:octopush/bloc/user_data/user_data_state.dart';
 import 'package:octopush/screens/game_rules_page.dart';
 
-import 'career_choice_page.dart';
-
 class HomePage extends StatelessWidget {
 
   @override
