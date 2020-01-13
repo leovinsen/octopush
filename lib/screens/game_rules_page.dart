@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
+import 'package:octopush/bloc/user_data/user_data_bloc.dart';
+import 'package:octopush/screens/career_choice_page.dart';
 import 'package:octopush/styles.dart';
 
 class GameRulesPage extends StatelessWidget {
+  final String userName;
+
+  GameRulesPage(this.userName);
+
   final String description =
       '(Description here) Welcome aboard Octo-push!';
 
@@ -18,7 +24,6 @@ class GameRulesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var user = BlocProvider.of<UserBloc>(context).activeUser;
 
     return Scaffold(
       body: Center(
@@ -27,7 +32,7 @@ class GameRulesPage extends StatelessWidget {
           padding: const EdgeInsets.all(40.0),
           children: <Widget>[
                 Text(
-                  'Hey, ${user.name}!',
+                  'Hey, $userName!',
                   textAlign: TextAlign.justify,
                   style: subtitleStyle,
                 ),
@@ -49,8 +54,8 @@ class GameRulesPage extends StatelessWidget {
                 RaisedButton(
                   color: Theme.of(context).primaryColorDark,
                   textColor: Colors.white,
-                  onPressed: () => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (_) => Center())),
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => BlocProvider<UserDataBloc>(create: (_)=> BlocProvider.of<UserDataBloc>(context)  ,child: CareerChoicePage()))),
                   child: Text('UNDERSTOOD!'),
                 )
               ],

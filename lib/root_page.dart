@@ -5,6 +5,7 @@ import 'package:octopush/repository/user_data_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
+import 'bloc/user_data/user_data_event.dart';
 import 'bloc/user_event.dart';
 import 'bloc/user_state.dart';
 import 'screens/home_page.dart';
@@ -27,7 +28,11 @@ class RootPage extends StatelessWidget {
 
         if (state is UserFound) {
           return BlocProvider<UserDataBloc>(
-            create: (_) => UserDataBloc(UserDataRepository(_prefs)),
+            create: (_) { 
+              var bloc = UserDataBloc(UserDataRepository(_prefs));
+              bloc.add(GetUserData());
+              return bloc;
+              },
             child: HomePage(),
           );
         }
