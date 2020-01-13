@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
+import 'package:octopush/styles.dart';
 
 class GameRulesPage extends StatelessWidget {
   final String description =
@@ -28,13 +29,11 @@ class GameRulesPage extends StatelessWidget {
                 Text(
                   'Hey, ${user.name}!',
                   textAlign: TextAlign.justify,
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+                  style: subtitleStyle,
                 ),
                 Text(
                   description,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
+                  style: baseStyle,
                 ),
                 SizedBox(
                   height: 30.0,
@@ -42,7 +41,7 @@ class GameRulesPage extends StatelessWidget {
                 Text(
                   'Game Rules',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w600),
+                  style: titleStyle,
                 ),
                 SizedBox(height: 20.0,)
               ] + _buildRulesList() +
@@ -61,6 +60,6 @@ class GameRulesPage extends StatelessWidget {
   }
 
   List<Widget> _buildRulesList(){
-    return rules.map((rule) => Text(rule, style: TextStyle(fontSize: 16.0),)).toList();
+    return rules.map((rule) => Text(rule, style: baseStyle,)).toList();
   }
 }
