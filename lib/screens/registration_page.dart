@@ -161,7 +161,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void _saveUser() async {
     //Pretend we are communication with our servers
     await Future.delayed(Duration(seconds: 2));
-    var event = AddUser(_nameTextController.text, _phoneTextController.text,
+    var event = RegisterUser(_nameTextController.text, _phoneTextController.text,
         _selectedUniversity);
 
         setState(() {

@@ -1,38 +1,38 @@
-import 'package:equatable/equatable.dart';
-import 'package:octopush/model/user_data.dart';
+// import 'package:equatable/equatable.dart';
+// import 'package:octopush/model/user_data.dart';
 
-abstract class UserDataState extends Equatable {
-  const UserDataState();
-}
+// abstract class UserDataState extends Equatable {
+//   const UserDataState();
+// }
 
-class UserDataBlocCreated extends UserDataState {
-  const UserDataBlocCreated();
+// class UserDataBlocCreated extends UserDataState {
+//   const UserDataBlocCreated();
 
-  @override
-  List<Object> get props => null;
-}
+//   @override
+//   List<Object> get props => null;
+// }
 
-class UserDataUninitialized extends UserDataState {
-  const UserDataUninitialized();
+// class UserDataUninitialized extends UserDataState {
+//   const UserDataUninitialized();
 
-  @override
-  List<Object> get props => null;
-}
+//   @override
+//   List<Object> get props => null;
+// }
 
-class UserDataInitialized extends UserDataState {
-  final UserData data;
+// class UserDataInitialized extends UserDataState {
+//   final GameData data;
   
-  const UserDataInitialized(this.data);
+//   const UserDataInitialized(this.data);
 
-  @override
-  List<Object> get props => [data];
-}
+//   @override
+//   List<Object> get props => [data];
+// }
 
-class UserDataError extends UserDataState {
-  final String message;
+// class UserDataError extends UserDataState {
+//   final String message;
 
-  const UserDataError(this.message);
+//   const UserDataError(this.message);
 
-  @override
-  List<Object> get props => [message];
-}
+//   @override
+//   List<Object> get props => [message];
+// }

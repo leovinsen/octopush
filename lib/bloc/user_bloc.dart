@@ -16,7 +16,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   User get activeUser => _activeUser;
 
   @override
-  UserState get initialState => AppStarted();
+  UserState get initialState => AppStart();
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
@@ -25,7 +25,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield _activeUser == null ? UserNotFound() : UserFound(_activeUser);
     }
 
-    if (event is AddUser){
+    if (event is RegisterUser){
       _activeUser = User(
         event.name,
         event.phone,
@@ -36,7 +36,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield UserFound(_activeUser);
     }
 
-    if (event is ClearUser){
+    if (event is ClearData){
       await _repo.clearUser();
       //Invalidate cache
       _activeUser = null;

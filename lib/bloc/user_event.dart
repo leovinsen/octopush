@@ -14,20 +14,39 @@ class GetUser extends UserEvent {
   }
 }
 
-class AddUser extends UserEvent {
+class RegisterUser extends UserEvent {
   final String name;
   final String phone;
   final String university;
 
-  AddUser(this.name, this.phone, this.university);
+  RegisterUser(this.name, this.phone, this.university);
 
   @override
   List<Object> get props => [name, phone, university];
 }
 
-class ClearUser extends UserEvent {
-  const ClearUser();
+class InitializeGame extends UserEvent {
+
+  final int jobIndex;
+  const InitializeGame(this.jobIndex);
+
+  @override
+  List<Object> get props => [jobIndex];
+
+  @override
+  String toString() {
+    return '$GetUser { jobIndex: $jobIndex }';
+  }
+}
+
+class ClearData extends UserEvent {
+  const ClearData();
 
   @override
   List<Object> get props => null;
+
+  @override
+  String toString() {
+    return '$ClearData { } ';
+  }
 }

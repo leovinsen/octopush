@@ -22,7 +22,7 @@ class RootPage extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       bloc: BlocProvider.of<UserBloc>(context),
       builder: (_, state) {
-        if (state is AppStarted) {
+        if (state is AppStart) {
           BlocProvider.of<UserBloc>(context).add(GetUser());
         }
 
