@@ -13,7 +13,7 @@ class GameDataRepository {
 
   const GameDataRepository(this.prefs);
 
-  GameData getUserData(){
+  GameData getGameData(){
     int jobIndex = prefs.getInt(PREFS_JOB);
     var balance = prefs.getDouble(PREFS_BALANCE);
 
@@ -25,13 +25,20 @@ class GameDataRepository {
     return userData;
   }
 
+  Future<bool> initializeData(int jobIndex) async{
+    bool a = await prefs.setInt(PREFS_JOB, jobIndex);
+    bool b = await prefs.setDouble(PREFS_BALANCE, STARTING_BALANCE);
+
+    return a && b;
+  }
+
   Future<bool>saveBalance(double balance) async {
     return prefs.setDouble(PREFS_BALANCE, balance);
   }
 
-  Future<bool> saveUserJob(int job) async {
-    return prefs.setInt(PREFS_JOB, job);
-  }
+  // Future<bool> saveUserJob(int job) async {
+  //   return prefs.setInt(PREFS_JOB, job);
+  // }
 
   Future<bool> clearUserData() async {
     bool a = await prefs.remove(PREFS_JOB);
