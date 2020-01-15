@@ -36,7 +36,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
       _gameData = _gameDataRepo.getGameData();
       if(_gameData == null){
-        yield GameDataNotFound();
+        yield GameDataNotFound(_activeUser.name);
         return;
       }
 
@@ -55,7 +55,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
 
     if(event is InitializeGame){
-      bool b =await _gameDataRepo.initializeData(event.jobIndex);
+      bool b = await _gameDataRepo.initializeData(event.jobIndex);
 
       yield GameDataFound(_userRepo.getUser(), _gameData);
     }

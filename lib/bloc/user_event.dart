@@ -35,7 +35,7 @@ class InitializeGame extends UserEvent {
 
   @override
   String toString() {
-    return '$GetUser { jobIndex: $jobIndex }';
+    return '$InitializeGame { jobIndex: $jobIndex }';
   }
 }
 

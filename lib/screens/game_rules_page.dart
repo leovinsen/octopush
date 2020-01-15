@@ -55,7 +55,7 @@ class GameRulesPage extends StatelessWidget {
                   color: Theme.of(context).primaryColorDark,
                   textColor: Colors.white,
                   onPressed: () => Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => BlocProvider<UserDataBloc>(create: (_)=> BlocProvider.of<UserDataBloc>(context)  ,child: CareerChoicePage()))),
+                      MaterialPageRoute(builder: (_) => CareerChoicePage())),
                   child: Text('UNDERSTOOD!'),
                 )
               ],

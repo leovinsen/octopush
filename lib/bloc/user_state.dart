@@ -48,10 +48,12 @@ class UserAdded extends UserState {
 }
 
 class GameDataNotFound extends UserState {
-  const GameDataNotFound();
+  final String name;
+
+  const GameDataNotFound(this.name);
 
   @override
-  List<Object> get props => null;
+  List<Object> get props => [name];
 
   @override
   String toString() {
@@ -70,7 +72,7 @@ class GameDataFound extends UserState {
 
   @override
   String toString() {
-    return '$UserNotFound { }';
+    return '$GameDataFound { }';
   }
 }
 
