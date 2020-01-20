@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:octopush/repository/game_data_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
+import 'bloc/user_event.dart';
 import 'repository/user_repository.dart';
 import 'root_page.dart';
 
 void main() async {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  var prefs = await SharedPreferences.getInstance();
+  var userRepo = UserRepository(prefs);
+  var gameDataRepo = GameDataRepository(prefs);
+  runApp(BlocProvider<UserBloc>(
+    child: MyApp(),
+    create: (_) => UserBloc(userRepo, gameDataRepo),),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,37 +25,26 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Octopush',
         theme: ThemeData(primarySwatch: Colors.red),
-        home: SplashScreen());
+        home: RootPage());
   }
 }
 
-class SplashScreen extends StatefulWidget {
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
+// class SplashScreen extends StatefulWidget {
+//   @override
+//   _SplashScreenState createState() => _SplashScreenState();
+// }
 
-class _SplashScreenState extends State<SplashScreen> {
-  var _userRepo;
-  var _prefs;
+// class _SplashScreenState extends State<SplashScreen> {
 
-  @override
-  void initState() {
-    super.initState();
-    SharedPreferences.getInstance().then((prefs) => {
-          setState(() {
-            _prefs = prefs;
-            _userRepo = UserRepository(prefs);
-          })
-        });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _userRepo == null
-        ? Center(child: Text('Splash Screen'))
-        : BlocProvider(
-            create: (_) => UserBloc(_userRepo),
-            child: RootPage(_prefs),
-          );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return _userRepo == null && _gameDataRepo == null
+//         ? Center(child: Text('Splash Screen'))
+//         : BlocProvider(
+//             create: (_) {
+//               return UserBloc(_userRepo, _gameDataRepo);
+//               },
+//             child: RootPage(),
+//           );
+//   }
+// }

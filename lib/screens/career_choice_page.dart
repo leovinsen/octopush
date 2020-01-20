@@ -50,7 +50,8 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
     if (_selectedJob == -1) {
       _showErrorJobNotChosenDialog();
     } else {
-      BlocProvider.of<UserDataBloc>(context).add(InitUserData(_selectedJob));
+      BlocProvider.of<UserBloc>(context).add(InitializeGame(_selectedJob));
+      Navigator.of(context).pop();
     }
   }
 

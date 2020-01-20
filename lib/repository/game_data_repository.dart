@@ -1,5 +1,5 @@
 import 'package:octopush/model/job.dart';
-import 'package:octopush/model/user_data.dart';
+import 'package:octopush/model/game_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const PREFS_JOB = "job";
@@ -8,30 +8,37 @@ const PREFS_BALANCE = "balance";
 //Starting balance at 2M IDR
 const STARTING_BALANCE = 2000000.0;
 
-class UserDataRepository {
+class GameDataRepository {
   final SharedPreferences prefs;
 
-  const UserDataRepository(this.prefs);
+  const GameDataRepository(this.prefs);
 
-  UserData getUserData(){
+  GameData getGameData(){
     int jobIndex = prefs.getInt(PREFS_JOB);
     var balance = prefs.getDouble(PREFS_BALANCE);
 
     if(jobIndex == null) return null;
 
     var job = Job.values[jobIndex];
-    UserData userData = UserData(job, balance);
+    GameData userData = GameData(job, balance);
 
     return userData;
+  }
+
+  Future<bool> initializeData(int jobIndex) async{
+    bool a = await prefs.setInt(PREFS_JOB, jobIndex);
+    bool b = await prefs.setDouble(PREFS_BALANCE, STARTING_BALANCE);
+
+    return a && b;
   }
 
   Future<bool>saveBalance(double balance) async {
     return prefs.setDouble(PREFS_BALANCE, balance);
   }
 
-  Future<bool> saveUserJob(int job) async {
-    return prefs.setInt(PREFS_JOB, job);
-  }
+  // Future<bool> saveUserJob(int job) async {
+  //   return prefs.setInt(PREFS_JOB, job);
+  // }
 
   Future<bool> clearUserData() async {
     bool a = await prefs.remove(PREFS_JOB);
