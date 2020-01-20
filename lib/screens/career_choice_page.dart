@@ -75,7 +75,7 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
         _buildHalfOfScreen(
           jobIndex: 0,
           jobName: 'Employee',
-          imgPath: 'assets/icon_employee.png',
+          imgPath: 'assets/career_employee.png',
           income: 'Fixed',
           risk: 'Low',
           salary: 'Moderate but stable',
@@ -83,7 +83,7 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
         _buildHalfOfScreen(
           jobIndex: 1,
           jobName: 'Self-Employed',
-          imgPath: 'assets/icon_self_employed.jpg',
+          imgPath: 'assets/career_self_employed.png',
           income: 'Non-Fixed',
           risk: 'High',
           salary: 'High but fluctuating',
