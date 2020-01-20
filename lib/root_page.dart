@@ -12,40 +12,50 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
-      bloc: BlocProvider.of<UserBloc>(context),
-      builder: (_, state){
-        print('state: $state');
-        if (state is UserNotFound) {
-          return _animatePage(RegistrationPage());
-        }
+        bloc: BlocProvider.of<UserBloc>(context),
+        builder: (_, state) {
+          print('state: $state');
+          if (state is UserNotFound) {
+            return _animatePage(RegistrationPage());
+          }
 
-        if (state is UserAdded) {
-          return _animatePage( GameRulesPage(state.name));
-        }
+          if (state is UserAdded) {
+            return _animatePage(GameRulesPage(state.name));
+          }
 
-        if (state is GameDataFound) {
-          return _animatePage( HomePage());
-        }
+          if (state is GameDataFound) {
+            return _animatePage(HomePage());
+          }
 
-        if (state is GameDataNotFound) {
-         return  _animatePage( GameRulesPage(state.name));
-        }
+          if (state is GameDataNotFound) {
+            return _animatePage(GameRulesPage(state.name));
+          }
 
-        if (state is DataCleared) {
-          return _animatePage( RegistrationPage());
-        }
+          if (state is DataCleared) {
+            return _animatePage(RegistrationPage());
+          }
 
-        BlocProvider.of<UserBloc>(context).add(GetUser());
-        return Center(child: Text('Splash page'),);
-      }
-    );
+          BlocProvider.of<UserBloc>(context).add(GetUser());
+          return Center(
+            child: Text('Splash page'),
+          );
+        });
   }
 
-  Widget _animatePage(Widget widget){
+  Widget _animatePage(Widget widget) {
     return AnimatedSwitcher(
-          duration: Duration(milliseconds: 250),
-          child: widget,
-        );
+      duration: Duration(milliseconds: 250),
+      child: widget,
+      // transitionBuilder: (Widget child, Animation<double> animation) {
+      //   return SlideTransition(
+      //     position: Tween<Offset>(
+      //       begin: const Offset(0, 0.25),
+      //       end: Offset.zero,
+      //     ).animate(animation),
+      //     child: child,
+      //   );
+      // },
+    );
   }
 
   // @override
