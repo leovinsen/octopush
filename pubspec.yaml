@@ -26,6 +26,8 @@ dependencies:
   flutter_bloc: ^2.1.1
   equatable: ^0.6.0
   shared_preferences: ^0.5.6
+  flutter_money_formatter: ^0.8.3
+  intl: ^0.15.8
 
 dev_dependencies:
   flutter_test:
