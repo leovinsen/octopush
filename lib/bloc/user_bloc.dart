@@ -56,6 +56,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     if(event is InitializeGame){
       bool b = await _gameDataRepo.initializeData(event.jobIndex);
+      _gameData = _gameDataRepo.getGameData();
 
       yield GameDataFound(_userRepo.getUser(), _gameData);
     }
