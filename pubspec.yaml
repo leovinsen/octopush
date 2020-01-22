@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^0.5.6
   flutter_money_formatter: ^0.8.3
   intl: ^0.15.8
+  google_fonts: ^0.3.2
 
 dev_dependencies:
   flutter_test:

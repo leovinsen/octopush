@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-final TextStyle smallTextStyle = baseStyle.copyWith(fontSize: 12.0);
-final TextStyle baseStyle = TextStyle(fontSize: 14.0);
-final TextStyle captionStyle = baseStyle.copyWith(fontSize: 18.0, fontWeight: FontWeight.w500);
+final TextStyle smallTextStyle = baseStyle.copyWith(fontSize: 12.0, fontWeight: FontWeight.w300);
+// final TextStyle baseStyle = GoogleFonts.openSans(textStyle: TextStyle(fontSize: 14.0), letterSpacing: -0.5);
+
+final TextStyle baseStyle = TextStyle(fontSize: 14.0, letterSpacing: -0.5);
+final TextStyle captionStyle = baseStyle.copyWith(fontSize: 18.0);
 final TextStyle titleStyle = baseStyle.copyWith(fontSize: 24.0, fontWeight: FontWeight.w600);
 final TextStyle subtitleStyle = baseStyle.copyWith(fontSize: 20.0, fontWeight: FontWeight.w600);
 

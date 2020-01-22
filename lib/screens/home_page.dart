@@ -30,42 +30,44 @@ class HomePage extends StatelessWidget {
       // color: Color(0xFF262626),
       width: double.infinity,
       height: double.infinity,
-      padding: const EdgeInsets.all(20.0),
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _buildTimeLabel(context),
-            SizedBox(
-              height: 10.0,
-            ),
-            _greetings(context),
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildLabel(context, Icons.person, 'About you'),
-            _aboutUser(context),
-            _buildLabel(context, Icons.attach_money, 'Your Options'),
-            SizedBox(
-              height: 20.0,
-            ),
-            _yourOptions(),
-            SizedBox(
-              height: 20.0,
-            ),
-            _buildLabel(
-                context, Icons.history, 'Click to see transaction history')
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _buildTimeLabel(context),
+              SizedBox(
+                height: 10.0,
+              ),
+              _greetings(context),
+              SizedBox(
+                height: 10.0,
+              ),
+              _buildLabel(context, Icons.person, 'About you'),
+              _aboutUser(context),
+              _buildLabel(context, Icons.attach_money, 'Your Options'),
+              SizedBox(
+                height: 20.0,
+              ),
+              _yourOptions(),
+              SizedBox(
+                height: 20.0,
+              ),
+              _buildLabel(
+                  context, Icons.history, 'Click to see transaction history')
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _greetings(BuildContext context) {
-    var name = BlocProvider.of<UserBloc>(context).activeUser.name;
+    var name = BlocProvider.of<UserBloc>(context).activeUser.name.split(" ")[0];
 
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).accentColor,
@@ -88,10 +90,10 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-
-          IconButton(iconSize: 50,
+          IconButton(
+            iconSize: 50,
             icon: Icon(
-              Icons.mail,
+              Icons.email,
               color: Colors.white,
             ),
             onPressed: () => print('notif'),
@@ -103,7 +105,7 @@ class HomePage extends StatelessWidget {
 
   Widget _buildLabel(BuildContext context, IconData iconData, String label) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Theme.of(context).accentColor,
@@ -119,7 +121,7 @@ class HomePage extends StatelessWidget {
           ),
           Text(
             label,
-            style: subtitleStyleLight,
+            style: captionStyleLight,
           )
         ],
       ),
@@ -173,27 +175,37 @@ class HomePage extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: _buildAboutYouSegment(label: 'Your age:', value: '20'),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  flex: 1,
+                  child:
+                      _buildAboutYouSegment(label: 'Your Age:', value: '20')),
+              Container(
+                  height: 50,
+                  child: VerticalDivider(
+                    indent: 5,
+                    endIndent: 5,
+                    color: Colors.black87,
+                    thickness: 1,
+                  )),
+              Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: _buildAboutYouSegment(
+                        label: 'Your Career:', value: jobStr),
+                  )),
+            ],
           ),
-          SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
-            flex: 4,
-            child: _buildAboutYouSegment(label: 'Your career:', value: jobStr),
-          ),
-          SizedBox(
-            width: 10.0,
-          ),
-          Expanded(
+
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
             child: _buildAboutYouSegment(
-                label: 'Your current TRB:',
-                value: balanceStr.output.symbolOnLeft),
-            flex: 5,
+                label: 'Your Current TRB:', value: balanceStr.output.symbolOnLeft),
           )
         ],
       ),
@@ -210,7 +222,7 @@ class HomePage extends StatelessWidget {
         ),
         Text(
           value,
-          style: captionStyle,
+          style: subtitleStyle,
         )
       ],
     );
