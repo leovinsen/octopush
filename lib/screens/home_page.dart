@@ -11,6 +11,7 @@ import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 
+import 'installment_page.dart';
 import 'octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -331,6 +332,7 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             _buildOptionsCard(
               label: 'Installments',
+              onTap: () => _pushPage(context, InstallmentPage()),
             ),
             _buildOptionsCard(
               label: 'Bancassurance',
