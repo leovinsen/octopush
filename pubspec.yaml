@@ -29,6 +29,8 @@ dependencies:
   flutter_money_formatter: ^0.8.3
   intl: ^0.15.8
   google_fonts: ^0.3.2
+  sqflite: ^1.2.0
+  path_provider: ^1.5.1
 
 dev_dependencies:
   flutter_test:
