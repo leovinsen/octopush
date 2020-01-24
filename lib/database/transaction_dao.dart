@@ -18,9 +18,8 @@ class TransactionDao {
   Future<List<Transaction>> getAll() async {
     var db = await  _getDb();
     var result = await db.query(TABLE_NAME);
-    return result.isNotEmpty 
-        ? result.map((item) => Transaction.fromDB(item)).toList()
-        : [];
+
+    return result.map<Transaction>((item) => Transaction.fromDB(item)).toList();
   }
 
   Future<int> update(Transaction t) async {

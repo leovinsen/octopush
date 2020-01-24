@@ -12,6 +12,10 @@ class DateUtils {
     return formatDate.format(dt);
   }
 
+  static String formatDateDDMMYY(DateTime dt){
+    return DateFormat("DD/MM/yyyy").format(dt);
+  }
+
   static String formatTime(DateTime dt) {
     var format = DateFormat("hh:mm a");
     return format.format(dt);

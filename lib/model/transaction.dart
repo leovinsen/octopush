@@ -12,11 +12,13 @@ class Transaction extends Equatable {
       this.id, this.dateCreated, this.interval, this.title, this.amount);
 
   Transaction.fromDB(Map<String, dynamic> map)
-      : this.id = map[COL_ID],
-        this.dateCreated = DateTime.parse(map[COL_DATE_CREATED]),
-        this.interval = map[COL_TIME_INTERVAL],
-        this.title = map[COL_TITLE],
-        this.amount = map[COL_AMOUNT];
+      : id = map[COL_ID],
+        dateCreated = DateTime.parse(map[COL_DATE_CREATED]),
+        interval = map[COL_TIME_INTERVAL],
+        title = map[COL_TITLE],
+        amount = (map[COL_AMOUNT] is int)
+            ? map[COL_AMOUNT].toDouble()
+            : map[COL_AMOUNT];
 
   Map<String, dynamic> toDB() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

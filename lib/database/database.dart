@@ -49,4 +49,10 @@ class DatabaseProvider {
         "$COL_AMOUNT DECIMAL(10,2) " 
         ")");
   }
+
+  Future<void> deleteDB() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, DB_NAME);
+    await deleteDatabase(path);
+  }
 }

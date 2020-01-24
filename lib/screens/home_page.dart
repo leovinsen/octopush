@@ -11,6 +11,8 @@ import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 
+import 'octo_savers_page.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -116,7 +118,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 20.0,
               ),
-              _yourOptions(),
+              _yourOptions(context),
               SizedBox(
                 height: 20.0,
               ),
@@ -136,7 +138,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
               InkWell(
                 onTap: () => _clearData(context),
                 child: Padding(
@@ -309,31 +310,42 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _yourOptions() {
+  Widget _yourOptions(BuildContext context) {
     return Column(
       children: <Widget>[
         Row(
           children: <Widget>[
-            _buildOptionsCard(label: 'Octo Savers'),
-            _buildOptionsCard(label: 'Time Deposit'),
-            _buildOptionsCard(label: 'Mutual Funds'),
+            _buildOptionsCard(
+              label: 'Octo Savers',
+              onTap: () => _pushPage(context, OctoSaversPage()),
+            ),
+            _buildOptionsCard(
+              label: 'Time Deposit',
+            ),
+            _buildOptionsCard(
+              label: 'Mutual Funds',
+            ),
           ],
         ),
         Row(
           children: <Widget>[
-            _buildOptionsCard(label: 'Installments'),
-            _buildOptionsCard(label: 'Bancassurance'),
+            _buildOptionsCard(
+              label: 'Installments',
+            ),
+            _buildOptionsCard(
+              label: 'Bancassurance',
+            ),
           ],
         )
       ],
     );
   }
 
-  Widget _buildOptionsCard({String label}) {
+  Widget _buildOptionsCard({String label, Function onTap}) {
     return Expanded(
       child: Card(
         child: InkWell(
-          onTap: () => print(''),
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(10.0),
             width: 110,
@@ -358,5 +370,11 @@ class _HomePageState extends State<HomePage> {
 
   void _clearData(BuildContext context) {
     BlocProvider.of<UserBloc>(context).add(ClearData());
+  }
+
+  void _pushPage(BuildContext context, Widget page) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => page,
+    ));
   }
 }
