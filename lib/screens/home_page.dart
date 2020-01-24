@@ -1,13 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:octopush/bloc/interval/interval_bloc.dart';
+import 'package:octopush/bloc/interval/interval_event.dart';
+import 'package:octopush/bloc/interval/interval_state.dart';
 import 'package:octopush/bloc/user_bloc.dart';
 import 'package:octopush/bloc/user_event.dart';
 import 'package:octopush/model/job.dart';
+import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/styles.dart';
+import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String name;
+  int age;
+  int day;
+  String career;
+  double balance;
+
+  @override
+  void initState() {
+    super.initState();
+    name = BlocProvider.of<UserBloc>(context).activeUser.name.split(" ")[0];
+
+    var gameData = BlocProvider.of<UserBloc>(context).gameData;
+    career = gameData.job == Job.values[0] ? "Employee" : "Self-Employed";
+
+    age = _calculateAge(gameData.currentInterval.index);
+    day = _calculateDay(gameData.currentInterval.index);
+
+    balance = BlocProvider.of<UserBloc>(context).gameData.balance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,8 +50,45 @@ class HomePage extends StatelessWidget {
       //   ],
       // ),
       // drawer: Drawer(),
-      body: SafeArea(child: _body(context)),
+      body: SafeArea(
+        child: BlocListener<IntervalBloc, IntervalState>(
+          child: _body(context),
+          listener: (BuildContext context, state) {
+            if (state is IntervalUpdated) {
+              setState(() {
+                age = _calculateAge(state.interval);
+                day = _calculateDay(state.interval);
+              });
+
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  content: Text(
+                      "Day advanced - now it's day $day session ${state.interval % 2 + 1}"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('OK'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  ],
+                ),
+              );
+            }
+          },
+        ),
+      ),
     );
+  }
+
+  ///for [currentInterval] see [TimeInterval].
+  int _calculateAge(int intervalIndex) {
+    int ageOffset = ((intervalIndex) / 2).floor() * 5;
+    return 20 + ageOffset;
+  }
+
+  int _calculateDay(int intervalIndex) {
+    int day = ((intervalIndex) / 2).floor() + 1;
+    return day;
   }
 
   Widget _body(BuildContext context) {
@@ -55,7 +121,21 @@ class HomePage extends StatelessWidget {
                 height: 20.0,
               ),
               _buildLabel(
-                  context, Icons.history, 'Click to see transaction history')
+                context,
+                Icons.history,
+                'Click to see transaction history',
+              ),
+              InkWell(
+                onTap: () => _incrementInterval(context),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: _buildLabel(
+                    context,
+                    Icons.calendar_today,
+                    'Advance day',
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -63,9 +143,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _greetings(BuildContext context) {
-    var name = BlocProvider.of<UserBloc>(context).activeUser.name.split(" ")[0];
+  void _incrementInterval(BuildContext context) {
+    BlocProvider.of<IntervalBloc>(context).add(IncrementInterval());
+  }
 
+  Widget _greetings(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
       decoration: BoxDecoration(
@@ -85,7 +167,7 @@ class HomePage extends StatelessWidget {
                 style: titleStyle.copyWith(color: Colors.white),
               ),
               Text(
-                "It's day 1 out of 12",
+                "It's day $day out of 12",
                 style: subtitleStyle.copyWith(color: Colors.white),
               ),
             ],
@@ -160,19 +242,6 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _aboutUser(BuildContext context) {
-    var job = BlocProvider.of<UserBloc>(context).gameData.job;
-    var jobStr = job == Job.values[0] ? "Employee" : "Self-Employed";
-
-    var balance = BlocProvider.of<UserBloc>(context).gameData.balance;
-    var balanceStr = FlutterMoneyFormatter(
-        amount: balance,
-        settings: MoneyFormatterSettings(
-          symbol: 'IDR',
-          thousandSeparator: '.',
-          decimalSeparator: '.',
-          fractionDigits: 2,
-        ));
-
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Column(
@@ -183,7 +252,7 @@ class HomePage extends StatelessWidget {
               Expanded(
                   flex: 1,
                   child:
-                      _buildAboutYouSegment(label: 'Your Age:', value: '20')),
+                      _buildAboutYouSegment(label: 'Your Age:', value: '$age')),
               Container(
                   height: 50,
                   child: VerticalDivider(
@@ -197,15 +266,15 @@ class HomePage extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 16.0),
                     child: _buildAboutYouSegment(
-                        label: 'Your Career:', value: jobStr),
+                        label: 'Your Career:', value: career),
                   )),
             ],
           ),
-
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: _buildAboutYouSegment(
-                label: 'Your Current TRB:', value: balanceStr.output.symbolOnLeft),
+                label: 'Your Current TRB:',
+                value: CurrencyUtils.formatToIdr(balance)),
           )
         ],
       ),
@@ -278,38 +347,4 @@ class HomePage extends StatelessWidget {
   void _clearData(BuildContext context) {
     BlocProvider.of<UserBloc>(context).add(ClearData());
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return BlocListener<UserDataBloc, UserDataState>(
-  //     bloc: BlocProvider.of<UserDataBloc>(context),
-  //     listener: (_, state){
-  //       // if (state is UserDataBlocCreated){
-  //       //   BlocProvider.of<UserDataBloc>(context).add(GetUserData());
-  //       // }
-
-  //       if (state is UserDataUninitialized){
-  //         String name = BlocProvider.of<UserBloc>(context).activeUser.name;
-  //         Navigator.of(context).push(MaterialPageRoute(builder: (_) => GameRulesPage(name)));
-  //       }
-
-  //       if (state is UserDataInitialized){}
-  //     },
-
-  //     );
-
-  //   // return BlocBuilder<UserDataBloc, UserDataState>(
-  //   //   bloc: BlocProvider.of<UserDataBloc>(context),
-  //   //   builder: (_, state){
-  //   //     if (state is UserDataBlocCreated){
-  //   //       BlocProvider.of<UserDataBloc>(context).add(GetUserData());
-  //   //     }
-
-  //   //     if (state is UserDataUninitialized){
-  //   //       return GameRulesPage();
-  //   //     }
-
-  //   //     if (state is UserDataInitialized){}
-  //   //     return Center(child: Text('HomePage'),);
-  //   //   },
-
 }
