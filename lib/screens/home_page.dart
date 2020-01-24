@@ -135,7 +135,19 @@ class _HomePageState extends State<HomePage> {
                     'Advance day',
                   ),
                 ),
-              )
+              ),
+
+              InkWell(
+                onTap: () => _clearData(context),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: _buildLabel(
+                    context,
+                    Icons.cancel,
+                    'Clear game data',
+                  ),
+                ),
+              ),
             ],
           ),
         ),
