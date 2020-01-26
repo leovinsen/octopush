@@ -12,6 +12,7 @@ import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 
 import 'installment_page.dart';
+import 'minesweeper_page.dart';
 import 'octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -150,6 +151,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              InkWell(
+                onTap: () => _pushPage(context, MinesweeperPage()),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: _buildLabel(context, Icons.games, 'Minesweeper'),
+                )),
             ],
           ),
         ),
