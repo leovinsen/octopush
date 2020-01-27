@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
 import 'package:octopush/bloc/user_event.dart';
+import 'package:octopush/styles.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -34,7 +35,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
     _universityDropdownItems = universities
         .map((univ) => DropdownMenuItem(
-              child: Text(univ),
+              child: Text(
+                univ,
+                style: baseStyle,
+              ),
               value: univ,
             ))
         .toList();
@@ -55,9 +59,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Image.asset(
-                    'assets/logo_cimb.png',
+                    'assets/img_cimb_niaga.png',
+                    height: 60.0,
+                    width: 180.0,
+                    fit: BoxFit.contain,
+                  ),
+                  Image.asset(
+                    'assets/ic_octo_192.png',
                     height: 100.0,
-                    width: double.infinity,
+                    width: 100.0,
                     fit: BoxFit.contain,
                   ),
                   SizedBox(
@@ -66,6 +76,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   TextFormField(
                     decoration: InputDecoration(hintText: 'Your name'),
                     controller: _nameTextController,
+                    style: baseStyle,
                     validator: (name) {
                       if (name.isEmpty) return 'Name cannot be empty';
 
@@ -80,6 +91,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   TextFormField(
                     decoration: InputDecoration(hintText: 'Phone number'),
                     controller: _phoneTextController,
+                    style: baseStyle,
                     validator: (phone) {
                       if (phone.isEmpty) return 'Phone number cannot be empty';
 
@@ -97,29 +109,33 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   DropdownButton<String>(
                     value: _selectedUniversity,
                     isExpanded: true,
-                    hint: Text('Choose a university'),
+                    hint: Text(
+                      'Choose a university',
+                      style: baseStyle,
+                    ),
                     items: _universityDropdownItems,
                     onChanged: (univ) => setState(() {
                       _selectedUniversity = univ;
                     }),
                   ),
 
-                  // SizedBox(height: 40.0,),
-
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Checkbox(
-                          value: _agreeToTerms,
-                          onChanged: (val) {
-                            setState(() {
-                              _agreeToTerms = val;
-                            });
-                          },
-                          checkColor: Colors.white,
-                          activeColor: Theme.of(context).primaryColorDark),
-                      Text('I hereby agree to terms & conditions')
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Checkbox(
+                            value: _agreeToTerms,
+                            onChanged: (val) {
+                              setState(() {
+                                _agreeToTerms = val;
+                              });
+                            },
+                            checkColor: Colors.white,
+                            activeColor: Theme.of(context).primaryColorDark),
+                        Text('I hereby agree to terms & conditions', style: baseStyle,)
+                      ],
+                    ),
                   ),
 
                   SizedBox(
