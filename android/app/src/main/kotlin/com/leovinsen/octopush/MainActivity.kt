@@ -1,4 +1,4 @@
-package com.leovinsen.octopush
+package com.octopush
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

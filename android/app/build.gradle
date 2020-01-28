@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.leovinsen.octopush"
+        applicationId "com.octopush"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
@@ -53,6 +53,19 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    ///Flutter tool cannot find the apk if the filename is changed.
+    
+    // android.applicationVariants.all { variant ->
+    //     variant.outputs.all {
+    //         outputFileName = "Octopush-" + android.defaultConfig.versionName;
+    //         if (variant.buildType.name == "release") {
+    //             outputFileName += ".apk";
+    //         } else {
+    //             outputFileName += "-debug.apk";
+    //         }
+    //     }
+    // }
 }
 
 flutter {
