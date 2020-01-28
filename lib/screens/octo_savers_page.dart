@@ -83,11 +83,14 @@ class OctoSaversPage extends StatelessWidget {
               ),
             ],
           ),
-          Icon(
-            Icons.monetization_on,
-            size: 50,
-            color: Colors.white,
-          )
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Image.asset(
+              'assets/ic_octo_savers.png',
+              height: 50,
+              width: 50,
+            ),
+          ),
         ],
       ),
     );

@@ -114,9 +114,13 @@ class _HomePageState extends State<HomePage> {
                 height: 10.0,
               ),
               _buildLabel(context, Icons.person, 'About you'),
-              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 10.0,
+              ),
               _aboutUser(context),
-              SizedBox(height: 10.0,),
+              SizedBox(
+                height: 10.0,
+              ),
               _buildLabel(context, Icons.attach_money, 'Your Options'),
               SizedBox(
                 height: 20.0,
@@ -328,13 +332,16 @@ class _HomePageState extends State<HomePage> {
         Row(
           children: <Widget>[
             _buildOptionsCard(
+              imageUrl: 'assets/ic_octo_savers.png',
               label: 'Octo Savers',
               onTap: () => _pushPage(context, OctoSaversPage()),
             ),
             _buildOptionsCard(
+              imageUrl: 'assets/ic_time_deposit.png',
               label: 'Time Deposit',
             ),
             _buildOptionsCard(
+              imageUrl: 'assets/ic_mutual_funds.png',
               label: 'Mutual Funds',
             ),
           ],
@@ -342,10 +349,12 @@ class _HomePageState extends State<HomePage> {
         Row(
           children: <Widget>[
             _buildOptionsCard(
+              imageUrl: 'assets/ic_installments.png',
               label: 'Installments',
               onTap: () => _pushPage(context, InstallmentPage()),
             ),
             _buildOptionsCard(
+              imageUrl: 'assets/ic_bancassurance.png',
               label: 'Bancassurance',
             ),
           ],
@@ -354,24 +363,31 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildOptionsCard({String label, Function onTap}) {
+  Widget _buildOptionsCard({String imageUrl, String label, Function onTap}) {
+    assert(imageUrl != null);
     return Expanded(
       child: Card(
         child: InkWell(
           onTap: onTap,
           child: Container(
-            padding: const EdgeInsets.all(10.0),
-            width: 110,
-            height: 150,
+            padding: const EdgeInsets.all(0.0),
+            width: 100,
+            height: 100,
             alignment: Alignment.center,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.asset('assets/logo_cimb.png'),
+                Image.asset(
+                  imageUrl,
+                  width: 50,
+                  height: 50,
+                ),
+                SizedBox(height: 10.0,),
                 Text(
                   label,
                   style: baseStyle,
+                  textAlign: TextAlign.center,
                 )
               ],
             ),
