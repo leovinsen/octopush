@@ -34,6 +34,8 @@ enum TimeInterval {
   DAY4_A,
   DAY4_B,
   DAY5_A,
+  DAY5_B,
+  DAY6_A,
   DAY6_B,
   DAY7_A,
   DAY7_B,
