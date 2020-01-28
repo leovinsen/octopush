@@ -6,13 +6,20 @@ import 'package:sqflite/sqflite.dart';
 
 const DB_NAME = "octopush.db";
 
-const TABLE_NAME = "transaction_history";
+const TABLE_HISTORY = "transaction_history";
 
 const COL_ID = "id";
 const COL_DATE_CREATED = "date_created";
 const COL_TIME_INTERVAL = "time_interval";
 const COL_TITLE = "title";
 const COL_AMOUNT = "amount";
+
+const TABLE_CHALLENGE = "challenge";
+
+const COL_DESCRIPTION = "description";
+const COL_LOWEST_REWARD = "lowest_reward";
+const COL_HIGHEST_REWARD = "highest_reward";
+const COL_DONE = "done";
 
 class DatabaseProvider {
   static final DatabaseProvider instance = DatabaseProvider();
@@ -36,17 +43,26 @@ class DatabaseProvider {
   Future onUpgrade(Database database, int oldVersion, int newVersion) async {
     print('oldVersion: $oldVersion, newVersion: $newVersion');
     if (newVersion > oldVersion) {
-      
+      await deleteDB();
+      await initDB(database, newVersion);
     }
   }
 
   Future initDB(Database database, int version) async {
-    await database.execute("CREATE TABLE $TABLE_NAME ("
+    await database.execute("CREATE TABLE $TABLE_HISTORY ("
         "$COL_ID INTEGER PRIMARY KEY, "
         "$COL_DATE_CREATED TEXT NOT NULL, "
         "$COL_TIME_INTERVAL INTEGER, "
         "$COL_TITLE TEXT, "
-        "$COL_AMOUNT DECIMAL(10,2) " 
+        "$COL_AMOUNT DECIMAL(10,2) "
+        ")");
+    await database.execute("CREATE TABLE $TABLE_CHALLENGE ("
+        "$COL_TIME_INTERVAL INTEGER PRIMARY KEY, "
+        "$COL_TITLE TEXT NOT NULL, "
+        "$COL_DESCRIPTION TEXT NOT NULL, "
+        "$COL_LOWEST_REWARD INTEGER NOT NULL, "
+        "$COL_HIGHEST_REWARD INTEGER NOT NULL, "
+        "$COL_DONE INTEGER DEFAULT 0 "
         ")");
   }
 
