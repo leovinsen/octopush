@@ -16,6 +16,8 @@ class ChallengeDao {
     var result = await db.query(TABLE_CHALLENGE,
         where: 'time_interval =?', whereArgs: [timeInterval]);
 
+    if (result.length == 0) return null;
+    
     if (result.length > 1) throw QuerySetException("$ChallengeDao.$getOne");
 
     return Challenge.fromDB(result[0]);
