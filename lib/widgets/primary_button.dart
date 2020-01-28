@@ -10,7 +10,7 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      color: Theme.of(context).primaryColorDark,
+      color: Theme.of(context).accentColor,
       textColor: Colors.white,
       onPressed: onPressed,
       child: Text('$buttonText'),

@@ -97,7 +97,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _body(BuildContext context) {
     return Container(
-      // color: Color(0xFF262626),
       width: double.infinity,
       height: double.infinity,
       child: SingleChildScrollView(
@@ -115,7 +114,9 @@ class _HomePageState extends State<HomePage> {
                 height: 10.0,
               ),
               _buildLabel(context, Icons.person, 'About you'),
+              SizedBox(height: 10.0,),
               _aboutUser(context),
+              SizedBox(height: 10.0,),
               _buildLabel(context, Icons.attach_money, 'Your Options'),
               SizedBox(
                 height: 20.0,
@@ -152,11 +153,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               InkWell(
-                onTap: () => _pushPage(context, MinesweeperPage()),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: _buildLabel(context, Icons.games, 'Minesweeper'),
-                )),
+                  onTap: () => _pushPage(context, MinesweeperPage()),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: _buildLabel(context, Icons.games, 'Minesweeper'),
+                  )),
             ],
           ),
         ),
@@ -263,41 +264,44 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _aboutUser(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                  flex: 1,
-                  child:
-                      _buildAboutYouSegment(label: 'Your Age:', value: '$age')),
-              Container(
-                  height: 50,
-                  child: VerticalDivider(
-                    indent: 5,
-                    endIndent: 5,
-                    color: Colors.black87,
-                    thickness: 1,
-                  )),
-              Expanded(
-                  flex: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16.0),
+    return Card(
+      elevation: 1.0,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                    flex: 1,
                     child: _buildAboutYouSegment(
-                        label: 'Your Career:', value: career),
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: _buildAboutYouSegment(
-                label: 'Your Current TRB:',
-                value: CurrencyUtils.formatToIdr(balance)),
-          )
-        ],
+                        label: 'Your Age:', value: '$age')),
+                Container(
+                    height: 50,
+                    child: VerticalDivider(
+                      indent: 5,
+                      endIndent: 5,
+                      color: accentColor,
+                      thickness: 1,
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 16.0),
+                      child: _buildAboutYouSegment(
+                          label: 'Your Career:', value: career),
+                    )),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: _buildAboutYouSegment(
+                  label: 'Your Current TRB:',
+                  value: CurrencyUtils.formatToIdr(balance)),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -308,11 +312,11 @@ class _HomePageState extends State<HomePage> {
       children: <Widget>[
         Text(
           label,
-          style: captionStyle,
+          style: captionStyleAccent,
         ),
         Text(
           value,
-          style: subtitleStyle,
+          style: subtitleStyleAccent,
         )
       ],
     );

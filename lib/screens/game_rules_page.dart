@@ -13,97 +13,78 @@ class GameRulesPage extends StatefulWidget {
 }
 
 class _GameRulesPageState extends State<GameRulesPage> {
-  final String description = 'Welcome aboard Octo-push!';
+  final String description =
+      "Congratulations, you've been listed in this race!";
 
   bool _agreeToTerms = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: ListView(
           shrinkWrap: true,
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(20.0),
           children: <Widget>[
-                Text(
-                  'Hey, ${widget.userName}!',
-                  textAlign: TextAlign.justify,
-                  style: subtitleStyle,
+            Card(
+              color: Theme.of(context).accentColor,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Hey, ${widget.userName}!',
+                      textAlign: TextAlign.justify,
+                      style: subtitleStyleLight,
+                    ),
+                    Text(
+                      description,
+                      style: baseStyleLight,
+                    ),
+                  ],
                 ),
-                Text(
-                  description,
-                  style: baseStyle,
-                ),
-                SizedBox(
-                  height: 30.0,
-                ),
-                Text(
-                  'Game Rules',
-                  textAlign: TextAlign.center,
-                  style: titleStyle,
-                ),
-                SizedBox(
-                  height: 20.0,
-                )
-              ] +
-              _buildRulesList() +
-              [
-                SizedBox(
-                  height: 30.0,
-                ),
-                Text(
-                  'Disclaimer',
-                  textAlign: TextAlign.center,
-                  style: titleStyle,
-                ),
-                SizedBox(
-                  height: 20.0,
-                )
-              ] +
-              _buildDisclaimerList() +
-              [_buildCheckboxAgreement(context), _buildButtonSubmit(context)],
+              ),
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            RulesSegment(),
+            SizedBox(
+              height: 20.0,
+            ),
+            DisclaimerSegment()
+          ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildCheckboxAgreement(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Checkbox(
-            value: _agreeToTerms,
-            onChanged: (val) {
-              setState(() {
-                _agreeToTerms = val;
-              });
-            },
-            checkColor: Colors.white,
-            activeColor: Theme.of(context).primaryColorDark),
-        Text('I hereby agree to terms & conditions', style: baseStyle,)
-      ],
+class RulesSegment extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Theme.of(context).accentColor,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+                  Center(
+                    child: Text(
+                      'Game Rules',
+                      textAlign: TextAlign.center,
+                      style: titleStyleLight,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  )
+                ] +
+                _buildRulesList()),
+      ),
     );
-  }
-
-  Widget _buildButtonSubmit(BuildContext context) {
-    return RaisedButton(
-      color: Theme.of(context).primaryColorDark,
-      textColor: Colors.white,
-      onPressed: () => _next(context),
-      child: Text('Next'),
-    );
-  }
-
-  void _next(BuildContext context) {
-    if (_agreeToTerms) {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => CareerChoicePage()));
-    } else {
-      showDialog(
-          context: context,
-          builder: (_) => SimpleAlertDialog(
-              'You have not agreed to the terms & conditions'));
-    }
   }
 
   List<Widget> _buildRulesList() {
@@ -133,50 +114,11 @@ class _GameRulesPageState extends State<GameRulesPage> {
     ];
   }
 
-  List<Widget> _buildDisclaimerList() {
-    return <Widget>[
-      RichText(
-        textAlign: TextAlign.justify,
-        text: TextSpan(
-          style: baseStyle.copyWith(color: Colors.black),
-          children: <TextSpan>[
-            _buildSpan(
-              text:
-                  '1. The rates and other financial calculations used is for illustration and learning purposes only, hence mentioned products or services might not reflect the ',
-            ),
-            _buildSpanBold(text: 'actual '),
-            _buildSpan(text: 'ones in real life. ')
-          ],
-        ),
-      ),
-      _buildV10Gap(),
-      _buildText(
-          '2. CIMB Niaga do not provide any financial advices with and throughout the game.'),
-      _buildV10Gap(),
-      _buildText(
-          '3. The application has the right to store all necessary data.')
-    ];
-  }
-
-  SizedBox _buildV10Gap() {
-    return SizedBox(
-      height: 10.0,
-    );
-  }
-
-  TextSpan _buildSpan({String text}) {
-    return TextSpan(text: text);
-  }
-
-  TextSpan _buildSpanBold({String text}) {
-    return TextSpan(text: text, style: _bold());
-  }
-
   Widget _rule2() {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpan(text: '2. The goal is to accumulate as much'),
           _buildSpanBold(text: ' Total Relationship Balance (TRB) '),
@@ -203,7 +145,7 @@ class _GameRulesPageState extends State<GameRulesPage> {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpan(text: '4. There are '),
           _buildSpanBold(text: '2 sessions '),
@@ -226,7 +168,7 @@ class _GameRulesPageState extends State<GameRulesPage> {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpan(
             text:
@@ -243,7 +185,7 @@ class _GameRulesPageState extends State<GameRulesPage> {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpan(
             text:
@@ -259,7 +201,7 @@ class _GameRulesPageState extends State<GameRulesPage> {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpan(
             text: '8. Every decision you made is ',
@@ -286,7 +228,7 @@ class _GameRulesPageState extends State<GameRulesPage> {
     return RichText(
       textAlign: TextAlign.justify,
       text: TextSpan(
-        style: baseStyle.copyWith(color: Colors.black),
+        style: baseStyleLight,
         children: <TextSpan>[
           _buildSpanBold(
             text: '11. Summary: ',
@@ -298,16 +240,136 @@ class _GameRulesPageState extends State<GameRulesPage> {
       ),
     );
   }
+}
 
-  Text _buildText(String text) {
-    return Text(
-      text,
-      textAlign: TextAlign.justify,
-      style: baseStyle,
+class DisclaimerSegment extends StatefulWidget {
+  @override
+  _DisclaimerSegmentState createState() => _DisclaimerSegmentState();
+}
+
+class _DisclaimerSegmentState extends State<DisclaimerSegment> {
+  bool _agreeToTerms = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        color: Theme.of(context).accentColor,
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+                  Text(
+                    'Disclaimer',
+                    textAlign: TextAlign.center,
+                    style: titleStyleLight,
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  )
+                ] +
+                _buildDisclaimerList() +
+                [
+                  _buildCheckboxAgreement(context),
+                  _buildButtonSubmit(context),
+                ],
+          ),
+        ));
+  }
+
+  List<Widget> _buildDisclaimerList() {
+    return <Widget>[
+      RichText(
+        textAlign: TextAlign.justify,
+        text: TextSpan(
+          style: baseStyleLight,
+          children: <TextSpan>[
+            _buildSpan(
+              text:
+                  '1. The rates and other financial calculations used is for illustration and learning purposes only, hence mentioned products or services might not reflect the ',
+            ),
+            _buildSpanBold(text: 'actual '),
+            _buildSpan(text: 'ones in real life. ')
+          ],
+        ),
+      ),
+      _buildV10Gap(),
+      _buildText(
+          '2. CIMB Niaga do not provide any financial advices with and throughout the game.'),
+      _buildV10Gap(),
+      _buildText(
+          '3. The application has the right to store all necessary data.')
+    ];
+  }
+
+  Widget _buildCheckboxAgreement(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Theme(
+          data: ThemeData(unselectedWidgetColor: Colors.white),
+          child: Checkbox(
+              value: _agreeToTerms,
+              onChanged: (val) {
+                setState(() {
+                  _agreeToTerms = val;
+                });
+              },
+              checkColor: Colors.white,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              activeColor: Theme.of(context).primaryColorDark),
+        ),
+        Text(
+          'I hereby agree to terms & conditions',
+          style: baseStyleLight,
+        )
+      ],
     );
   }
 
-  TextStyle _bold() {
-    return baseStyle.copyWith(fontWeight: FontWeight.bold);
+  Widget _buildButtonSubmit(BuildContext context) {
+    return RaisedButton(
+      color: Colors.white,
+      textColor: Colors.black,
+      onPressed: () => _next(context),
+      child: Text('Next', style: captionStyleAccent,),
+    );
   }
+
+  void _next(BuildContext context) {
+    if (_agreeToTerms) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => CareerChoicePage()));
+    } else {
+      showDialog(
+          context: context,
+          builder: (_) => SimpleAlertDialog(
+              'You have not agreed to the terms & conditions'));
+    }
+  }
+}
+
+Text _buildText(String text) {
+  return Text(
+    text,
+    textAlign: TextAlign.justify,
+    style: baseStyleLight,
+  );
+}
+
+TextStyle _bold() {
+  return baseStyleLight.copyWith(fontWeight: FontWeight.bold);
+}
+
+SizedBox _buildV10Gap() {
+  return SizedBox(
+    height: 10.0,
+  );
+}
+
+TextSpan _buildSpan({String text}) {
+  return TextSpan(text: text);
+}
+
+TextSpan _buildSpanBold({String text}) {
+  return TextSpan(text: text, style: _bold());
 }

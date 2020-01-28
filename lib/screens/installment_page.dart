@@ -15,41 +15,50 @@ class InstallmentPage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Container(
+    return Padding(
       padding: const EdgeInsets.all(20.0),
-      alignment: Alignment.center,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text(
-            'Which installments would you like to make?',
-            style: titleStyle,
-            textAlign: TextAlign.center,
+      child: Container(
+        alignment: Alignment.center,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Theme.of(context).accentColor,
           ),
-          SizedBox(height: 40.0),
-          Row(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _buildHalfOfScreen(
-                iconData: Icons.home,
-                label: 'Mortgage',
-                onTap: () => _pushPage(
-                  context: context,
-                  index: 0,
-                  label: 'Mortgage',
-                ),
+              Text(
+                'Which installments would you like to make?',
+                style: titleStyleLight,
+                textAlign: TextAlign.center,
               ),
-              _buildHalfOfScreen(
-                iconData: Icons.directions_car,
-                label: 'Automobile',
-                onTap: () => _pushPage(
-                  context: context,
-                  index: 1,
-                  label: 'Automobile',
-                ),
+              SizedBox(height: 40.0),
+              Row(
+                children: <Widget>[
+                  _buildHalfOfScreen(
+                    iconData: Icons.home,
+                    label: 'Mortgage',
+                    onTap: () => _pushPage(
+                      context: context,
+                      index: 0,
+                      label: 'Mortgage',
+                    ),
+                  ),
+                  _buildHalfOfScreen(
+                    iconData: Icons.directions_car,
+                    label: 'Automobile',
+                    onTap: () => _pushPage(
+                      context: context,
+                      index: 1,
+                      label: 'Automobile',
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

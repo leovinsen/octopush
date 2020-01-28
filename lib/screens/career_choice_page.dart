@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
-import 'package:octopush/bloc/user_data/user_data_bloc.dart';
-import 'package:octopush/bloc/user_data/user_data_event.dart';
 import 'package:octopush/bloc/user_event.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/primary_button.dart';
@@ -18,28 +16,37 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(40.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Text(
-                'But before we start the game, we need to ask you: What do you want to be?',
-                style: subtitleStyle,
-              ),
-              SizedBox(
-                height: 50.0,
-              ),
-              _buildCareerSelectionArea(),
-              SizedBox(
-                height: 20.0,
-              ),
-              PrimaryButton(
-                buttonText: 'SUBMIT',
-                onPressed: () =>_submitJob(context),
-              )
-            ],
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Card(
+                  color: Theme.of(context).accentColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      'But first we need to ask you: What do you want to be?',
+                      style: subtitleStyleLight,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                _buildCareerSelectionArea(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                PrimaryButton(
+                  
+                  buttonText: 'SUBMIT',
+                  onPressed: () => _submitJob(context),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -71,6 +78,7 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
 
   Widget _buildCareerSelectionArea() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         _buildHalfOfScreen(
           jobIndex: 0,
@@ -101,34 +109,66 @@ class _CareerChoicePageState extends State<CareerChoicePage> {
       String salary}) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(2.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Stack(children: <Widget>[
-              Image.asset(
-                imgPath,
-                height: 120.0,
-                fit: BoxFit.fill,
-                width: double.infinity,
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: Column(
+                  children: <Widget>[
+                    Stack(
+                      children: <Widget>[
+                        Image.asset(
+                          imgPath,
+                          height: 120.0,
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                        ),
+                        Checkbox(
+                          value: _selectedJob == jobIndex,
+                          onChanged: (bool) => _selectJob(jobIndex),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0,),
+                    Text(
+                      '$jobName',
+                      style: captionStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-              Checkbox(
-                value: _selectedJob == jobIndex,
-                onChanged: (bool) => _selectJob(jobIndex),
-              ),
-            ]),
+            ),
             SizedBox(
               height: 20.0,
             ),
-            Text(
-              '$jobName',
-              style: captionStyle,
-              textAlign: TextAlign.center,
-            ),
-            Text('Income: $income'),
-            Text('Risk: $risk'),
-            Text('Salary: $salary')
+            Card(
+              color: Theme.of(context).accentColor,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Income: $income',
+                      style: baseStyleLight,
+                    ),
+                    Text(
+                      'Risk: $risk',
+                      style: baseStyleLight,
+                    ),
+                    Text(
+                      'Salary: $salary',
+                      style: baseStyleLight,
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),

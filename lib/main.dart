@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/repository/game_data_repository.dart';
+import 'package:octopush/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
-import 'bloc/user_event.dart';
 import 'repository/user_repository.dart';
 import 'root_page.dart';
 
@@ -13,9 +13,11 @@ void main() async {
   var prefs = await SharedPreferences.getInstance();
   var userRepo = UserRepository(prefs);
   var gameDataRepo = GameDataRepository(prefs);
-  runApp(BlocProvider<UserBloc>(
-    child: MyApp(),
-    create: (_) => UserBloc(userRepo, gameDataRepo),),
+  runApp(
+    BlocProvider<UserBloc>(
+      child: MyApp(),
+      create: (_) => UserBloc(userRepo, gameDataRepo),
+    ),
   );
 }
 
@@ -24,7 +26,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Octopush',
-        theme: ThemeData(primarySwatch: Colors.red),
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+          accentColor: accentColor,
+          scaffoldBackgroundColor: backgroundColor,
+        ),
         home: RootPage());
   }
 }

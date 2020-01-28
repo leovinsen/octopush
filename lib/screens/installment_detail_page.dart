@@ -33,44 +33,51 @@ class InstallmentDetailPage extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
-        child: ListView(
-          children: <Widget>[
-            Text(
-              '$label Options',
-              style: titleStyle,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              'Base price: $basePrice ',
-              textAlign: TextAlign.center,
-              style: subtitleStyle,
-            ),
-            SizedBox(height: 20.0),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: options.length,
-                itemBuilder: (_, index) {
-                  var option = options[index];
-                  var pricePerInterval =
-                      CurrencyUtils.formatToIdr(option.intervalInstallment);
-                  var duration = option.duration;
-                  var total = CurrencyUtils.formatToIdr(option.amount);
-                  var interest = option.interest;
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Theme.of(context).accentColor
+          ),
+          child: ListView(
+            padding: const EdgeInsets.all(20.0),
+            children: <Widget>[
+              Text(
+                '$label Options',
+                style: titleStyleLight,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 10.0),
+              Text(
+                'Base price: $basePrice ',
+                textAlign: TextAlign.center,
+                style: subtitleStyleLight,
+              ),
+              SizedBox(height: 20.0),
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: options.length,
+                  itemBuilder: (_, index) {
+                    var option = options[index];
+                    var pricePerInterval =
+                        CurrencyUtils.formatToIdr(option.intervalInstallment);
+                    var duration = option.duration;
+                    var total = CurrencyUtils.formatToIdr(option.amount);
+                    var interest = option.interest;
 
-                  return Card(
-                    child: ListTile(
-                      isThreeLine: true,
-                      title: Text('$pricePerInterval per interval'),
-                      subtitle: Text('$duration intervals \nTotal: $total'),
-                      trailing: Text(
-                        '$interest %',
+                    return Card(
+                      child: ListTile(
+                        isThreeLine: true,
+                        title: Text('$pricePerInterval per interval'),
+                        subtitle: Text('$duration intervals \nTotal: $total'),
+                        trailing: Text(
+                          '$interest %',
+                        ),
                       ),
-                    ),
-                  );
-                }),
-          ],
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );
