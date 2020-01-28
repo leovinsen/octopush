@@ -7,6 +7,7 @@ import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 import 'package:octopush/utils/no_glow_scroll.dart';
+import 'package:octopush/widgets/page_header.dart';
 import 'package:octopush/widgets/primary_container.dart';
 import 'package:octopush/widgets/section_label.dart';
 
@@ -36,7 +37,7 @@ class OctoSaversPage extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
-              _greetings(),
+              PageHeader(pageName: 'Octo Savers', headerIconUrl: 'assets/ic_octo_savers.png',),
               SizedBox(height: 20.0),
               _balanceInfo(context),
               SizedBox(height: 20.0),
@@ -71,39 +72,7 @@ class OctoSaversPage extends StatelessWidget {
       ),
     );
   }
-
-  Widget _greetings() {
-    return PrimaryContainer(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'Hi!',
-                style: subtitleStyleLight,
-              ),
-              Text(
-                'Welcome to OctoSavers!',
-                style: subtitleStyleLight,
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Image.asset(
-              'assets/ic_octo_savers.png',
-              height: 50,
-              width: 50,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+  
   Widget _balanceInfo(BuildContext context) {
     double balance = BlocProvider.of<UserBloc>(context).gameData.balance;
 
