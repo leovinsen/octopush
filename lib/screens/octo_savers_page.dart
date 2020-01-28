@@ -6,12 +6,20 @@ import 'package:octopush/repository/transaction_repository.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
+import 'package:octopush/utils/no_glow_scroll.dart';
 import 'package:octopush/widgets/primary_container.dart';
 import 'package:octopush/widgets/section_label.dart';
 
 class OctoSaversPage extends StatelessWidget {
   final transactionRepo = TransactionRepository();
-
+  final explanation =
+      'Octosavers is an extraordinary saving account especially made for you! Totally suits you who are the tech-savvy generation.';
+  final keyPoints = """
+  - Most 'liquid' type of account. It can be readily converted to cash anytime.\n
+  - All of your incomings and outcomings are directly credited & debited through this account.\n
+  - No minimum balance required.\n
+  - No transaction fee, no penalty fee.\n
+  - But, unfortunately, no interest rate. """;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,10 +131,10 @@ class OctoSaversPage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         width: double.infinity,
-        height: 100.0,
         child: Text(
-          'Octo Savers is...',
-          style: captionStyle,
+          explanation,
+          textAlign: TextAlign.justify,
+          style: largeTextStyle,
         ),
       ),
     );
@@ -138,10 +146,9 @@ class OctoSaversPage extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         width: double.infinity,
-        height: 100.0,
         child: Text(
-          'FYI:',
-          style: captionStyle,
+          keyPoints,
+          style: largeTextStyle,
         ),
       ),
     );
@@ -167,7 +174,7 @@ class OctoSaversPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 70.0),
                       child: Text(
                         'Oops! Currently, You have no historical transaction.',
-                        style: captionStyle,
+                        style: largeTextStyle,
                         textAlign: TextAlign.center,
                       ),
                     );
@@ -184,22 +191,26 @@ class OctoSaversPage extends StatelessWidget {
   }
 
   Widget _buildTransactionList(List<Transaction> transactionList) {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: transactionList.length,
-      separatorBuilder: (_, index) => Divider(
-        color: Colors.redAccent,
+    return ScrollConfiguration(
+      behavior: NoGlowScrollBehavior(),
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: transactionList.length,
+        separatorBuilder: (_, index) => Divider(
+          color: Colors.redAccent,
+        ),
+        itemBuilder: (_, index) {
+          var transaction = transactionList[index];
+          return ListTile(
+            contentPadding: EdgeInsets.all(0),
+            title: Text(transaction.title),
+            subtitle: Text(
+                'Interval ${transaction.interval + 1} - ${DateUtils.formatDateDDMMYY(transaction.dateCreated)}'),
+            trailing: Text(CurrencyUtils.formatToIdr(transaction.amount)),
+          );
+        },
       ),
-      itemBuilder: (_, index) {
-        var transaction = transactionList[index];
-        return ListTile(
-          contentPadding: EdgeInsets.all(0),
-          title: Text(transaction.title),
-          subtitle: Text(
-              'Interval ${transaction.interval + 1} - ${DateUtils.formatDateDDMMYY(transaction.dateCreated)}'),
-          trailing: Text(CurrencyUtils.formatToIdr(transaction.amount)),
-        );
-      },
     );
   }
 
