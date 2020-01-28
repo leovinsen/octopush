@@ -13,12 +13,12 @@ class Challenge {
       this.lowestReward, this.highestReward, this.done);
 
   Challenge.fromDB(Map<String, dynamic> map)
-      : timeInterval = map[COL_TIME_INTERVAL],
+      : timeInterval = TimeInterval.values[map[COL_TIME_INTERVAL]],
         title = map[COL_TITLE],
         description = map[COL_DESCRIPTION],
         lowestReward = map[COL_LOWEST_REWARD],
         highestReward = map[COL_HIGHEST_REWARD],
-        done = map[COL_DONE];
+        done = map[COL_DONE] ?? false;
 
   Map<String, dynamic> toDB() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -29,5 +29,10 @@ class Challenge {
     data[COL_HIGHEST_REWARD] = this.highestReward;
     data[COL_DONE] = this.done;
     return data;
+  }
+
+  @override
+  String toString() {
+    return "$timeInterval, $title, $description, $lowestReward, $highestReward, $done";
   }
 }
