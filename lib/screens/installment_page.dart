@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:octopush/model/installment.dart';
 import 'package:octopush/styles.dart';
+import 'package:octopush/widgets/primary_container.dart';
 
 import 'installment_detail_page.dart';
+
+const String mortgage = 'Mortgage';
+const String automobile = 'CIMB Niaga Auto Finance';
 
 class InstallmentPage extends StatelessWidget {
   @override
@@ -19,11 +23,7 @@ class InstallmentPage extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: Container(
         alignment: Alignment.center,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Theme.of(context).accentColor,
-          ),
+        child: PrimaryContainer(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -33,25 +33,29 @@ class InstallmentPage extends StatelessWidget {
                 style: titleStyleLight,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 20.0),
               Row(
                 children: <Widget>[
-                  _buildHalfOfScreen(
-                    iconData: Icons.home,
-                    label: 'Mortgage',
-                    onTap: () => _pushPage(
-                      context: context,
-                      index: 0,
-                      label: 'Mortgage',
+                  Expanded(
+                    child: InstallmentOptionCard(
+                      imagePath: 'assets/ic_mortgage.png',
+                      label: mortgage,
+                      onTap: () => _pushPage(
+                        context: context,
+                        index: 0,
+                        label: mortgage,
+                      ),
                     ),
                   ),
-                  _buildHalfOfScreen(
-                    iconData: Icons.directions_car,
-                    label: 'Automobile',
-                    onTap: () => _pushPage(
-                      context: context,
-                      index: 1,
-                      label: 'Automobile',
+                  Expanded(
+                    child: InstallmentOptionCard(
+                      imagePath: 'assets/ic_automobile.png',
+                      label: automobile,
+                      onTap: () => _pushPage(
+                        context: context,
+                        index: 1,
+                        label: automobile,
+                      ),
                     ),
                   ),
                 ],
@@ -69,34 +73,46 @@ class InstallmentPage extends StatelessWidget {
           InstallmentDetailPage(InstallmentType.values[index], label),
     ));
   }
+}
 
-  Widget _buildHalfOfScreen({IconData iconData, String label, Function onTap}) {
-    return Expanded(
-      child: InkWell(
-        onTap: () => onTap(),
-        child: Card(
-          elevation: 1.0,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(
-                  iconData,
-                  size: 80,
-                  color: Colors.redAccent,
-                ),
-                SizedBox(
-                  height: 20.0,
-                ),
-                Text(
-                  '$label',
-                  style: captionStyle,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
+class InstallmentOptionCard extends StatelessWidget {
+  final String label;
+  final Function onTap;
+  final String imagePath;
+
+  const InstallmentOptionCard({Key key, this.label, this.onTap, this.imagePath})
+      : assert(label != null),
+        assert(onTap != null),
+        assert(imagePath != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => onTap(),
+      child: Card(
+        elevation: 1.0,
+        child: Container(
+          height: 175,
+          padding: const EdgeInsets.only(top: 20.0, bottom: 10.0, left: 20.0, right: 20.0,),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.asset(
+                imagePath,
+                height: 80,
+                width: 80,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                '$label',
+                style: captionStyle,
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         ),
       ),
