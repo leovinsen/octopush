@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:octopush/model/challenge.dart' show challengeJson;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -36,7 +37,7 @@ class DatabaseProvider {
     String path = join(documentsDirectory.path, DB_NAME);
 
     var database = await openDatabase(path,
-        version: 1, onCreate: initDB, onUpgrade: onUpgrade);
+        version: 2, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
   }
 
@@ -56,6 +57,7 @@ class DatabaseProvider {
         "$COL_TITLE TEXT, "
         "$COL_AMOUNT DECIMAL(10,2) "
         ")");
+
     await database.execute("CREATE TABLE $TABLE_CHALLENGE ("
         "$COL_TIME_INTERVAL INTEGER PRIMARY KEY, "
         "$COL_TITLE TEXT NOT NULL, "
@@ -64,6 +66,9 @@ class DatabaseProvider {
         "$COL_HIGHEST_REWARD INTEGER NOT NULL, "
         "$COL_DONE INTEGER DEFAULT 0 "
         ")");
+  
+    ///Feed initial data
+    challengeJson.forEach((map) async => await database.insert(TABLE_CHALLENGE, map));
   }
 
   Future<void> deleteDB() async {
