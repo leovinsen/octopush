@@ -1,5 +1,6 @@
 import 'package:octopush/database/database.dart';
 import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/utils/sqlite_data_converter.dart';
 
 class Challenge {
   final TimeInterval timeInterval;
@@ -18,7 +19,7 @@ class Challenge {
         description = map[COL_DESCRIPTION],
         lowestReward = map[COL_LOWEST_REWARD],
         highestReward = map[COL_HIGHEST_REWARD],
-        done = map[COL_DONE] ?? false;
+        done = SQLiteDataConverter.readBool(map[COL_DONE]);
 
   Map<String, dynamic> toDB() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
