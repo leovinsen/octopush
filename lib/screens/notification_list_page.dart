@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:octopush/model/challenge.dart';
+import 'package:octopush/screens/notification_detail_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/safe_scaffold.dart';
 
@@ -40,25 +41,33 @@ class NotificationListPage extends StatelessWidget {
                         itemCount: challenges.length,
                         itemBuilder: (_, index) {
                           var challenge = challenges[index];
-                          return Card(
-                            child: ListTile(
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16.0, vertical: 5.0),
-                                title: Text(challenge.title),
-                                subtitle: Text(
-                                  challenge.description,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: challenge.done
-                                    ? Icon(
-                                        Icons.check,
-                                        color: Colors.lightGreen,
-                                      )
-                                    : Icon(
-                                        Icons.cancel,
-                                        color: Colors.red,
-                                      )),
+                          return InkWell(
+                            onTap: () =>
+                                Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => NotificationDetailPage(
+                                challenge: challenge,
+                              ),
+                            )),
+                            child: Card(
+                              child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 16.0, vertical: 5.0),
+                                  title: Text(challenge.title),
+                                  subtitle: Text(
+                                    challenge.description,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: challenge.done
+                                      ? Icon(
+                                          Icons.check,
+                                          color: Colors.lightGreen,
+                                        )
+                                      : Icon(
+                                          Icons.cancel,
+                                          color: Colors.red,
+                                        )),
+                            ),
                           );
                         },
                       )
