@@ -8,6 +8,7 @@ import 'package:octopush/bloc/user_event.dart';
 import 'package:octopush/model/challenge.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
@@ -215,16 +216,16 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           NotificationButton(
-            onTap: () => _openNotificationList(),
+            onTap: () => _pushPage(
+                context,
+                NotificationListPage(
+                  challenges: challenges,
+                )),
             hasNotification: _userHasNotification(),
           ),
         ],
       ),
     );
-  }
-
-  void _openNotificationList(){
-    print(challenges.length);
   }
 
   Widget _buildLabel(BuildContext context, IconData iconData, String label) {
