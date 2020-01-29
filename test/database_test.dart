@@ -19,7 +19,8 @@ void main() {
         "$COL_DESCRIPTION TEXT NOT NULL, "
         "$COL_LOWEST_REWARD INTEGER NOT NULL, "
         "$COL_HIGHEST_REWARD INTEGER NOT NULL, "
-        "$COL_DONE INTEGER DEFAULT 0 "
+        "$COL_DONE INTEGER DEFAULT 0, "
+        "$COL_MOOD INTEGER NOT NULL "
         ")");
 
     challengeJson.forEach((map) async => await db.insert(TABLE_CHALLENGE, map));

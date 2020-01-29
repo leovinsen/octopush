@@ -21,6 +21,7 @@ const COL_DESCRIPTION = "description";
 const COL_LOWEST_REWARD = "lowest_reward";
 const COL_HIGHEST_REWARD = "highest_reward";
 const COL_DONE = "done";
+const COL_MOOD = "mood";
 
 class DatabaseProvider {
   static final DatabaseProvider instance = DatabaseProvider();
@@ -37,7 +38,7 @@ class DatabaseProvider {
     String path = join(documentsDirectory.path, DB_NAME);
 
     var database = await openDatabase(path,
-        version: 2, onCreate: initDB, onUpgrade: onUpgrade);
+        version: 3, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
   }
 
@@ -64,7 +65,8 @@ class DatabaseProvider {
         "$COL_DESCRIPTION TEXT NOT NULL, "
         "$COL_LOWEST_REWARD INTEGER NOT NULL, "
         "$COL_HIGHEST_REWARD INTEGER NOT NULL, "
-        "$COL_DONE INTEGER DEFAULT 0 "
+        "$COL_DONE INTEGER DEFAULT 0, "
+        "$COL_MOOD INTEGER NOT NULL "
         ")");
   
     ///Feed initial data
