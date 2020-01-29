@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/screens/game_rules_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'bloc/interval/interval_bloc.dart';
-import 'bloc/interval/interval_state.dart';
+import 'bloc/home/home_bloc.dart';
+import 'bloc/home/home_event.dart';
 import 'bloc/user_bloc.dart';
 import 'bloc/user_event.dart';
 import 'bloc/user_state.dart';
@@ -28,8 +26,8 @@ class RootPage extends StatelessWidget {
 
           if (state is GameDataFound) {
             return _animatePage(
-              BlocProvider<IntervalBloc>(
-                create: (_) => IntervalBloc(),
+              BlocProvider<HomeBloc>(
+                create: (_) => HomeBloc()..add(GetInterval()),
                 child: HomePage(),
               ),
             );

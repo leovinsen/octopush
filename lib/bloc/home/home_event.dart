@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class IntervalEvent extends Equatable {
-  const IntervalEvent();
+abstract class HomeEvent extends Equatable {
+  const HomeEvent();
 }
 
-class GetInterval extends IntervalEvent {
+class GetInterval extends HomeEvent {
   const GetInterval();
 
   @override
@@ -17,7 +17,7 @@ class GetInterval extends IntervalEvent {
 
 }
 
-class IncrementInterval extends IntervalEvent {
+class IncrementInterval extends HomeEvent {
   const IncrementInterval();
   
   @override

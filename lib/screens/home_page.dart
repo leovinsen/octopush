@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:octopush/bloc/interval/interval_bloc.dart';
-import 'package:octopush/bloc/interval/interval_event.dart';
-import 'package:octopush/bloc/interval/interval_state.dart';
+import 'package:octopush/bloc/home/home_bloc.dart';
+import 'package:octopush/bloc/home/home_event.dart';
+import 'package:octopush/bloc/home/home_state.dart';
 import 'package:octopush/bloc/user_bloc.dart';
 import 'package:octopush/bloc/user_event.dart';
+import 'package:octopush/model/challenge.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
+import 'package:octopush/widgets/notification_button.dart';
 
 import 'installment_page.dart';
 import 'minesweeper_page.dart';
@@ -27,6 +29,8 @@ class _HomePageState extends State<HomePage> {
   String career;
   double balance;
 
+  List<Challenge> challenges;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     day = _calculateDay(gameData.currentInterval.index);
 
     balance = BlocProvider.of<UserBloc>(context).gameData.balance;
+    challenges = [];
   }
 
   @override
@@ -55,13 +60,24 @@ class _HomePageState extends State<HomePage> {
       // ),
       // drawer: Drawer(),
       body: SafeArea(
-        child: BlocListener<IntervalBloc, IntervalState>(
+        child: BlocListener<HomeBloc, HomeState>(
+          bloc: BlocProvider.of<HomeBloc>(context),
           child: _body(context),
           listener: (BuildContext context, state) {
-            if (state is IntervalUpdated) {
+            print(state);
+            if (state is HomeStateLoaded) {
               setState(() {
                 age = _calculateAge(state.interval);
                 day = _calculateDay(state.interval);
+                challenges = state.challenges;
+              });
+            }
+
+            if (state is HomeStateIncremented) {
+              setState(() {
+                age = _calculateAge(state.interval);
+                day = _calculateDay(state.interval);
+                challenges = state.challenges;
               });
 
               showDialog(
@@ -170,7 +186,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _incrementInterval(BuildContext context) {
-    BlocProvider.of<IntervalBloc>(context).add(IncrementInterval());
+    BlocProvider.of<HomeBloc>(context).add(IncrementInterval());
   }
 
   Widget _greetings(BuildContext context) {
@@ -198,17 +214,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          IconButton(
-            iconSize: 50,
-            icon: Icon(
-              Icons.email,
-              color: Colors.white,
-            ),
-            onPressed: () => print('notif'),
-          )
+          NotificationButton(
+            onTap: () => _openNotificationList(),
+            hasNotification: _userHasNotification(),
+          ),
         ],
       ),
     );
+  }
+
+  void _openNotificationList(){
+    print(challenges.length);
   }
 
   Widget _buildLabel(BuildContext context, IconData iconData, String label) {
@@ -383,7 +399,9 @@ class _HomePageState extends State<HomePage> {
                   width: 50,
                   height: 50,
                 ),
-                SizedBox(height: 10.0,),
+                SizedBox(
+                  height: 10.0,
+                ),
                 Text(
                   label,
                   style: baseStyle,
@@ -405,5 +423,13 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (_) => page,
     ));
+  }
+
+  bool _userHasNotification() {
+    for (Challenge c in challenges) {
+      if (!c.done) return true;
+    }
+
+    return false;
   }
 }
