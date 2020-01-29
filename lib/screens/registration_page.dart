@@ -22,6 +22,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController _nameTextController;
   TextEditingController _phoneTextController;
   List<DropdownMenuItem> _universityDropdownItems;
+
+  final _nameFocus = FocusNode();
+  final _phoneFocus = FocusNode();
+  
   var _formKey;
 
   String _selectedUniversity;
@@ -127,6 +131,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       child: Column(
         children: <Widget>[
           TextFormField(
+            textInputAction: TextInputAction.next,
+            focusNode: _nameFocus,
             decoration: InputDecoration(hintText: 'Your name'),
             controller: _nameTextController,
             style: baseStyle,
@@ -135,11 +141,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
               return null;
             },
+            onFieldSubmitted: (string) =>
+                _changeFocus(context, _nameFocus, _phoneFocus),
           ),
           SizedBox(
             height: 10.0,
           ),
           TextFormField(
+            textInputAction: TextInputAction.done,
+            focusNode: _phoneFocus,
             decoration: InputDecoration(hintText: 'Phone number'),
             controller: _phoneTextController,
             style: baseStyle,
@@ -264,5 +274,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
         ],
       ),
     );
+  }
+
+  void _changeFocus(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
   }
 }
