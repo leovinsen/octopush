@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/bloc/user_bloc.dart';
 import 'package:octopush/bloc/user_event.dart';
 import 'package:octopush/styles.dart';
+import 'package:octopush/widgets/simple_alert_dialog.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -125,9 +126,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       padding: const EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 20.0,
-          ),
           TextFormField(
             decoration: InputDecoration(hintText: 'Your name'),
             controller: _nameTextController,
@@ -157,7 +155,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           SizedBox(
             height: 10.0,
           ),
-          DropdownButton<String>(
+          DropdownButtonFormField<String>(
+            isDense: true,
             value: _selectedUniversity,
             isExpanded: true,
             hint: Text(
@@ -165,8 +164,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               style: baseStyle,
             ),
             items: _universityDropdownItems,
-            onChanged: (univ) => setState(() {
-              _selectedUniversity = univ;
+            validator: (val) {
+              if (val?.isEmpty ?? true) {
+                return 'Please choose your university from the list';
+              }
+              return null;
+            },
+            onChanged: (val) => setState(() {
+              _selectedUniversity = val;
             }),
           ),
           Padding(
@@ -217,12 +222,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void _submitUser() {
-    if (_formKey.currentState.validate()) {
-      setState(() {
-        _loading = true;
-      });
-      _saveUser();
+    if (!_formKey.currentState.validate()) return;
+
+    if (!_agreeToTerms) {
+      showDialog(
+        context: context,
+        builder: (_) =>
+            SimpleAlertDialog('You have not agreed to the terms & conditions'),
+      );
+      return;
     }
+
+    ///Show loading indicator and begin saving user
+    setState(() {
+      _loading = true;
+    });
+    _saveUser();
   }
 
   void _saveUser() async {
@@ -240,15 +255,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   Future<void> _showDialogRegistrationSuccess() async {
     await showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-              content:
-                  Text('Hooray! You have successfully registered for OctoPush'),
-              actions: <Widget>[
-                FlatButton(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(context).pop()),
-              ],
-            ));
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Text('Hooray! You have successfully registered for OctoPush'),
+        actions: <Widget>[
+          FlatButton(
+              child: Text('OK'), onPressed: () => Navigator.of(context).pop()),
+        ],
+      ),
+    );
   }
 }
