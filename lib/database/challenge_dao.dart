@@ -30,6 +30,18 @@ class ChallengeDao {
     return result.map((map) => Challenge.fromDB(map)).toList();
   }
 
+  Future<List<Challenge>> getUntilInterval(int interval) async {
+    var result = await _query(where: 'time_interval BETWEEN ? AND ?', whereArgs: [0, interval]);
+
+    return result.map((map) => Challenge.fromDB(map)).toList();
+  }
+
+  Future<List<Map<String,dynamic>>> _query({String where, List<dynamic> whereArgs}) async {
+    var db = await _getDb();
+    return await db.query(TABLE_CHALLENGE, where: where, whereArgs: whereArgs);
+  }
+
+
   Future<int> update(Challenge c) async {
     var db = await _getDb();
     var result = await db.update(TABLE_CHALLENGE, c.toDB(),
