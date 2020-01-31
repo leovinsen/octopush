@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:octopush/constants.dart';
+import 'package:octopush/styles.dart';
 
 // Types of images available
 enum ImageType {
@@ -17,6 +19,8 @@ enum ImageType {
   facingDown,
   flagged,
 }
+
+const TILE_BOUNTY = 10 * MILLION;
 
 class MinesweeperPage extends StatefulWidget {
   @override
@@ -44,6 +48,9 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
   int bombCount = 0;
   int squaresLeft;
 
+  // Number of consecutive clicks by user
+  int clicksSurvived = 0;
+
   @override
   void initState() {
     super.initState();
@@ -57,26 +64,27 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
         child: ListView(
           children: <Widget>[
             Container(
-              color: Colors.grey,
+              color: Theme.of(context).accentColor,
+              padding: const EdgeInsets.all(8.0),
               height: 60.0,
               width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  InkWell(
-                    onTap: () {
-                      _initialiseGame();
-                    },
-                    child: CircleAvatar(
-                      child: Icon(
-                        Icons.tag_faces,
-                        color: Colors.black,
-                        size: 40.0,
-                      ),
-                      backgroundColor: Colors.yellowAccent,
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                color: Colors.black87,
+                alignment: Alignment.bottomLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Reward:',
+                      style: minesweeperTextStyle,
                     ),
-                  )
-                ],
+                    Text(
+                      '${clicksSurvived}M IDR',
+                      style: minesweeperTextStyle,
+                    ),
+                  ],
+                ),
               ),
             ),
             // The grid of squares
@@ -113,9 +121,13 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
                 return InkWell(
                   // Opens square
                   onTap: () {
+                    clicksSurvived++;
+
                     if (board[rowNumber][columnNumber].hasBomb) {
+                      clicksSurvived--;
                       _handleGameOver();
                     }
+
                     if (board[rowNumber][columnNumber].bombsAround == 0) {
                       _handleTap(rowNumber, columnNumber);
                     } else {
@@ -295,14 +307,11 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
       builder: (context) {
         return AlertDialog(
           title: Text("Game Over!"),
-          content: Text("<Enter consolation message here>"),
+          content: Text(
+              "Too bad, but you found a mine! You earned ${clicksSurvived}M IDR!"),
           actions: <Widget>[
             FlatButton(
-              onPressed: () {
-                _initialiseGame();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
+              onPressed: _closeDialogAndReturnToPreviousPage,
               child: Text("Back to Home Page"),
             ),
           ],
@@ -317,19 +326,26 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
       builder: (context) {
         return AlertDialog(
           title: Text("Congratulations!"),
-          content: Text("You Win!"),
+          content: Text("You Won! You earned ${clicksSurvived}M IDR!"),
           actions: <Widget>[
             FlatButton(
-              onPressed: () {
-                _initialiseGame();
-                Navigator.pop(context);
-              },
-              child: Text("Play again"),
+              onPressed: _closeDialogAndReturnToPreviousPage,
+              child: Text("Back to Home Page"),
             ),
           ],
         );
       },
     );
+  }
+
+  void _closeDialogAndReturnToPreviousPage() {
+    Navigator.of(context).pop();
+    Navigator.of(context).pop(_calculateReward());
+  }
+
+  ///User earns [TILE_BOUNTY] for each click that does not kill them
+  int _calculateReward() {
+    return clicksSurvived * TILE_BOUNTY;
   }
 
   Image getImage(ImageType type) {

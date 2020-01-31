@@ -28,3 +28,6 @@ final TextStyle largeTextStyleAccent = largeTextStyle.copyWith(color: accentColo
 final TextStyle captionStyleAccent = captionStyle.copyWith(color: accentColor);
 final TextStyle titleStyleAccent = titleStyle.copyWith(color: accentColor);
 final TextStyle subtitleStyleAccent = subtitleStyle.copyWith(color: accentColor);
+
+//Minesweeper theme
+final TextStyle minesweeperTextStyle = TextStyle(fontSize: 20.0, color: Colors.white, fontFamily: 'PixelLCD-7');
