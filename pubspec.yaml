@@ -32,6 +32,7 @@ dependencies:
   google_fonts: ^0.3.2
   sqflite: ^1.2.0
   path_provider: ^1.5.1
+  audioplayers: ^0.14.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
@@ -55,6 +56,7 @@ flutter_icons:
 flutter:
   assets:
     - assets/
+    - sounds/
   fonts:
     - family: PixelLCD-7
       fonts:

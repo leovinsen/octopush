@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:octopush/constants.dart';
 import 'package:octopush/styles.dart';
@@ -21,6 +22,8 @@ enum ImageType {
 }
 
 const TILE_BOUNTY = 10 * MILLION;
+const TRACK_CHA_CHING = 'sound_cha_ching.mp3';
+const TRACK_GAME_OVER = 'sound_game_over.mp3';
 
 class MinesweeperPage extends StatefulWidget {
   @override
@@ -50,6 +53,9 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
 
   // Number of consecutive clicks by user
   int clicksSurvived = 0;
+
+  // To play game over and successful click sounds
+  final player = AudioCache();
 
   @override
   void initState() {
@@ -123,9 +129,12 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
                   onTap: () {
                     clicksSurvived++;
 
+                    var soundtrack = TRACK_CHA_CHING;
+
                     if (board[rowNumber][columnNumber].hasBomb) {
                       clicksSurvived--;
                       _handleGameOver();
+                      soundtrack = TRACK_GAME_OVER;
                     }
 
                     if (board[rowNumber][columnNumber].bombsAround == 0) {
@@ -140,6 +149,8 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
                     if (squaresLeft <= bombCount) {
                       _handleWin();
                     }
+
+                    player.play(soundtrack);
                   },
                   // Flags square
                   onLongPress: () {
@@ -302,31 +313,25 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
 
   // Function to handle when a bomb is clicked.
   void _handleGameOver() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Game Over!"),
-          content: Text(
-              "Too bad, but you found a mine! You earned ${clicksSurvived}M IDR!"),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: _closeDialogAndReturnToPreviousPage,
-              child: Text("Back to Home Page"),
-            ),
-          ],
-        );
-      },
-    );
+    _createDialog(false);
   }
 
   void _handleWin() {
+    _createDialog(true);
+  }
+
+  void _createDialog(bool win){
+
+    var title = win ? "Congratulations!" : "Game Over!";
+    var content = win ? "You Won!" : "Too bad, you found a mine!";
+
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Congratulations!"),
-          content: Text("You Won! You earned ${clicksSurvived}M IDR!"),
+          title: Text(title),
+          content: Text("$content You earned ${clicksSurvived}M IDR!"),
           actions: <Widget>[
             FlatButton(
               onPressed: _closeDialogAndReturnToPreviousPage,
