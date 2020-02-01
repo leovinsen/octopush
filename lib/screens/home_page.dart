@@ -12,6 +12,7 @@ import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
+import 'package:octopush/widgets/clickable_label.dart';
 import 'package:octopush/widgets/notification_button.dart';
 
 import 'installment_page.dart';
@@ -151,34 +152,24 @@ class _HomePageState extends State<HomePage> {
                 Icons.history,
                 'Click to see transaction history',
               ),
-              InkWell(
+              ClickableLabel(
                 onTap: () => _incrementInterval(context),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: _buildLabel(
-                    context,
-                    Icons.calendar_today,
-                    'Advance day',
-                  ),
-                ),
+                iconData: Icons.calendar_today,
+                label: 'Advance day',
               ),
-              InkWell(
+              ClickableLabel(
                 onTap: () => _clearData(context),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: _buildLabel(
-                    context,
-                    Icons.cancel,
-                    'Clear game data',
-                  ),
-                ),
+                iconData: Icons.cancel,
+                label: 'Clear game data',
               ),
-              InkWell(
-                  onTap: () => _pushPage(context, MinesweeperPage()),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: _buildLabel(context, Icons.games, 'Minesweeper'),
-                  )),
+              ClickableLabel(
+                onTap: () => _pushPage(
+                  context,
+                  MinesweeperPage(),
+                ),
+                iconData: Icons.games,
+                label: 'Minesweeper',
+              )
             ],
           ),
         ),
