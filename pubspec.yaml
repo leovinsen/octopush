@@ -14,7 +14,7 @@ description: A new Flutter application.
 version: 0.3.0+3
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -33,6 +33,7 @@ dependencies:
   sqflite: ^1.2.0
   path_provider: ^1.5.1
   audioplayers: ^0.14.0
+  circular_check_box: ^1.0.1
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"
@@ -56,7 +57,6 @@ flutter_icons:
 flutter:
   assets:
     - assets/
-    - sounds/
   fonts:
     - family: PixelLCD-7
       fonts:

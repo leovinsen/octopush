@@ -9,6 +9,7 @@ import 'package:octopush/model/challenge.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/screens/notification_list_page.dart';
+import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
@@ -169,6 +170,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 iconData: Icons.games,
                 label: 'Minesweeper',
+              ),
+              ClickableLabel(
+                onTap: () => _pushPage(
+                  context,
+                 QuizChallengeSplashPage(),
+                ),
+                iconData: Icons.question_answer,
+                label: 'Who Wants to be a Jutawan'
               )
             ],
           ),

@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 class PrimaryContainer extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
-  
 
-  const PrimaryContainer({this.child, this.padding} ) : assert(child != null);
+  const PrimaryContainer({this.child, this.padding}) : assert(child != null);
 
   @override
   Widget build(BuildContext context) {
@@ -18,4 +17,11 @@ class PrimaryContainer extends StatelessWidget {
       child: child,
     );
   }
+}
+
+BoxDecoration getPrimaryDecoration(BuildContext context) {
+  return BoxDecoration(
+    borderRadius: BorderRadius.circular(10.0),
+    color: Theme.of(context).accentColor,
+  );
 }
