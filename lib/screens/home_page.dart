@@ -174,7 +174,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                   iconData: Icons.question_answer,
                   label: 'Who Wants to be a Jutawan'),
-              SizedBox(height: 20.0,),
+              SizedBox(
+                height: 20.0,
+              ),
               ClickableLabel(
                 onTap: () => _clearDataConfirmation(context),
                 iconData: Icons.cancel,
@@ -424,8 +426,10 @@ class _HomePageState extends State<HomePage> {
               content:
                   'This will delete all of your progress and account information. Proceed?',
               onNoPressed: () => Navigator.of(context).pop(),
-              onYesPressed: () =>
-                  BlocProvider.of<UserBloc>(context).add(ClearData()),
+              onYesPressed: () {
+                 Navigator.of(context).pop();
+                BlocProvider.of<UserBloc>(context).add(ClearData());
+              },
             ));
   }
 
