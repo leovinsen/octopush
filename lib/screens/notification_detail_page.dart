@@ -31,7 +31,7 @@ class NotificationDetailPage extends StatelessWidget {
               ChallengeDescription(
                 description: challenge.description,
                 mood: challenge.mood,
-                amount: _getAmount(challenge),
+                amount: _generateRandomAmount(challenge),
               ),
               SizedBox(
                 height: 10.0,
@@ -59,7 +59,8 @@ class NotificationDetailPage extends StatelessWidget {
     );
   }
 
-  int _getAmount(Challenge c) {
+  ///Generates a random value in the range of [Challenge.lowestReward] to [Challenge.highestReward]
+  int _generateRandomAmount(Challenge c) {
     int range = c.highestReward - c.lowestReward;
 
     if (range == 0) return c.highestReward;
