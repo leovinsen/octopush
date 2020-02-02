@@ -77,5 +77,6 @@ class DatabaseProvider {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
     await deleteDatabase(path);
+    _db = null;
   }
 }
