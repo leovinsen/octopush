@@ -59,13 +59,10 @@ class ChallengeDescription extends StatelessWidget {
                     style: baseStyleLight,
                     textAlign: TextAlign.justify,
                   ),
-                  SizedBox(height: 10.0,),
-                  Text(
-                    amount.isNegative
-                        ? 'Cost: ${amount.abs()} Million IDR'
-                        : 'Reward: $amount Million IDR',
-                    style: captionStyleLight,
-                  )
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  ChallengeAmountText(amount: amount),
                 ],
               ),
             ),
@@ -89,5 +86,28 @@ class ChallengeDescription extends StatelessWidget {
     }
 
     return path;
+  }
+}
+
+///Shows the amount of cost / reward obtained through the challenge
+class ChallengeAmountText extends StatelessWidget {
+  final int amount;
+
+  const ChallengeAmountText({Key key, this.amount}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String prefix = amount.isNegative ? 'Cost' : 'Reward';
+
+    bool billion = amount.abs() >= 1000;
+    print(amount);
+    String amountStr = billion
+        ? '${amount.abs() / 1000} Billion IDR'
+        : '${amount.abs()} Million IDR';
+
+    return Text(
+      '$prefix: $amountStr',
+      style: captionStyleLight,
+    );
   }
 }
