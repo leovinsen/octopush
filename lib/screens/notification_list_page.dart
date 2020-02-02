@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:octopush/model/challenge.dart';
-import 'package:octopush/screens/notification_detail_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/safe_scaffold.dart';
+
+import 'notification_detail/notification_detail_page.dart';
 
 class NotificationListPage extends StatelessWidget {
   final List<Challenge> challenges;

@@ -60,7 +60,7 @@ final List<Map<String,dynamic>> challengeJson = [
     "description":
         "Rise and shine! It's your lucky day! It's your chance to get a prize. Uncover all the squares that do not contain mines without being 'blown up' by clicking on a square with a mine underneath. You've only got one chance, so do it right! And goodluck! :)",
     "lowest_reward": 0,
-    "highest_reward": 1000,
+    "highest_reward": 0,
     "mood": 1
   },
   {
@@ -225,8 +225,8 @@ final List<Map<String,dynamic>> challengeJson = [
   },
   {
     "time_interval": 21,
-    "title": "Challenge #22",
-    "description": "Challenge #22",
+    "title": "Who Wants To Be A Jutawan?",
+    "description": "Yay! You got invited to the most popular Quiz game show on national TV channel!",
     "lowest_reward": 0,
     "highest_reward": 0,
     "mood": 0

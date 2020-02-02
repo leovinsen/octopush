@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/repository/game_data_repository.dart';
+import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'bloc/user_bloc.dart';
 import 'repository/user_repository.dart';
 import 'root_page.dart';
+import 'screens/minesweeper_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Octopush',
+        routes: {
+          '/minesweeper': (_) => MinesweeperPage(),
+          '/quiz': (_) => QuizChallengeSplashPage(),
+        },
         theme: ThemeData(
           primarySwatch: Colors.red,
           accentColor: accentColor,
