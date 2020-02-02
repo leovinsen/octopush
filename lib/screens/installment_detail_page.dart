@@ -4,6 +4,7 @@ import 'package:octopush/repository/installment_repository.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/no_glow_scroll.dart';
+import 'package:octopush/widgets/primary_container.dart';
 
 class InstallmentDetailPage extends StatelessWidget {
   final InstallmentType installmentType;
@@ -34,10 +35,7 @@ class InstallmentDetailPage extends StatelessWidget {
       child: ScrollConfiguration(
         behavior: NoGlowScrollBehavior(),
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Theme.of(context).accentColor
-          ),
+          decoration: getPrimaryDecoration(context),
           child: ListView(
             padding: const EdgeInsets.all(20.0),
             children: <Widget>[
@@ -46,7 +44,13 @@ class InstallmentDetailPage extends StatelessWidget {
                 style: titleStyleLight,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: 20.0),
+              InstallmentImage(
+                installmentType: installmentType,
+              ),
+              SizedBox(
+                height: 20.0,
+              ),
               Text(
                 'Base price: $basePrice ',
                 textAlign: TextAlign.center,
@@ -80,6 +84,30 @@ class InstallmentDetailPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class InstallmentImage extends StatelessWidget {
+  final InstallmentType installmentType;
+
+  const InstallmentImage({Key key, this.installmentType}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var imagePath;
+    switch (installmentType) {
+      case InstallmentType.MORTGAGE:
+        imagePath = 'assets/ic_mortgage.png';
+        break;
+      case InstallmentType.AUTOMOBILE:
+        imagePath = 'assets/ic_automobile.png';
+        break;
+    }
+    return Image.asset(
+      imagePath,
+      width: 125,
+      height: 125,
     );
   }
 }
