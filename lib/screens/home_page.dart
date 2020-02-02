@@ -15,6 +15,7 @@ import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 import 'package:octopush/widgets/clickable_label.dart';
 import 'package:octopush/widgets/notification_button.dart';
+import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 
 import 'installment_page.dart';
 import 'minesweeper_page.dart';
@@ -159,11 +160,6 @@ class _HomePageState extends State<HomePage> {
                 label: 'Advance day',
               ),
               ClickableLabel(
-                onTap: () => _clearData(context),
-                iconData: Icons.cancel,
-                label: 'Clear game data',
-              ),
-              ClickableLabel(
                 onTap: () => _pushPage(
                   context,
                   MinesweeperPage(),
@@ -172,13 +168,18 @@ class _HomePageState extends State<HomePage> {
                 label: 'Minesweeper',
               ),
               ClickableLabel(
-                onTap: () => _pushPage(
-                  context,
-                 QuizChallengeSplashPage(),
-                ),
-                iconData: Icons.question_answer,
-                label: 'Who Wants to be a Jutawan'
-              )
+                  onTap: () => _pushPage(
+                        context,
+                        QuizChallengeSplashPage(),
+                      ),
+                  iconData: Icons.question_answer,
+                  label: 'Who Wants to be a Jutawan'),
+              SizedBox(height: 20.0,),
+              ClickableLabel(
+                onTap: () => _clearDataConfirmation(context),
+                iconData: Icons.cancel,
+                label: 'Clear game data',
+              ),
             ],
           ),
         ),
@@ -416,8 +417,16 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _clearData(BuildContext context) {
-    BlocProvider.of<UserBloc>(context).add(ClearData());
+  void _clearDataConfirmation(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (_) => YesNoAlertDialog(
+              content:
+                  'This will delete all of your progress and account information. Proceed?',
+              onNoPressed: () => Navigator.of(context).pop(),
+              onYesPressed: () =>
+                  BlocProvider.of<UserBloc>(context).add(ClearData()),
+            ));
   }
 
   void _pushPage(BuildContext context, Widget page) {
