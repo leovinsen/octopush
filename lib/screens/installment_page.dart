@@ -3,7 +3,7 @@ import 'package:octopush/model/installment.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/primary_container.dart';
 
-import 'installment_detail_page.dart';
+import 'installment_detail/installment_detail_page.dart';
 
 const String mortgage = 'Mortgage';
 const String automobile = 'CIMB Niaga Auto Finance';

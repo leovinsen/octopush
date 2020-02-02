@@ -6,6 +6,8 @@ import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/no_glow_scroll.dart';
 import 'package:octopush/widgets/primary_container.dart';
 
+import 'widgets/installment_option_list.dart';
+
 class InstallmentDetailPage extends StatelessWidget {
   final InstallmentType installmentType;
   final String label;
@@ -57,29 +59,7 @@ class InstallmentDetailPage extends StatelessWidget {
                 style: subtitleStyleLight,
               ),
               SizedBox(height: 20.0),
-              ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: options.length,
-                  itemBuilder: (_, index) {
-                    var option = options[index];
-                    var pricePerInterval =
-                        CurrencyUtils.formatToIdr(option.intervalInstallment);
-                    var duration = option.duration;
-                    var total = CurrencyUtils.formatToIdr(option.amount);
-                    var interest = option.interest;
-
-                    return Card(
-                      child: ListTile(
-                        isThreeLine: true,
-                        title: Text('$pricePerInterval per interval'),
-                        subtitle: Text('$duration intervals \nTotal: $total'),
-                        trailing: Text(
-                          '$interest %',
-                        ),
-                      ),
-                    );
-                  }),
+              InstallmentOptionList(options: options),
             ],
           ),
         ),

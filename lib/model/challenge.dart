@@ -77,8 +77,8 @@ final List<Map<String,dynamic>> challengeJson = [
     "title": "Buy a Car",
     "description":
         "Congratulations on your first four wheel! You've been doing well and you decided to buy your own car.    Choose one of the auto-loan installment options.",
-    "lowest_reward": -30,
-    "highest_reward": -30,
+    "lowest_reward": -500,
+    "highest_reward": -500,
     "mood": 1
   },
   {
@@ -122,8 +122,8 @@ final List<Map<String,dynamic>> challengeJson = [
     "title": "Buy a House",
     "description":
         "Lil' fam needs its own house. Your child is getting bigger and at some point you need to buy your own house. Choose one of the mortgage installment options.",
-    "lowest_reward": -500,
-    "highest_reward": -500,
+    "lowest_reward": -1000,
+    "highest_reward": -1000,
     "mood": 1
   },
   {
