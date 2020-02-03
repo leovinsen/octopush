@@ -3,6 +3,10 @@ import 'dart:math';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:octopush/constants.dart';
+import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/model/transaction.dart';
+import 'package:octopush/repository/challenge_repository.dart';
+import 'package:octopush/repository/transaction_repository.dart';
 import 'package:octopush/styles.dart';
 
 // Types of images available
@@ -24,6 +28,7 @@ enum ImageType {
 const TILE_BOUNTY = 10 * MILLION;
 const TRACK_CHA_CHING = 'sound_cha_ching.mp3';
 const TRACK_GAME_OVER = 'sound_game_over.mp3';
+const minesweeperInterval = TimeInterval.DAY1_B;
 
 class MinesweeperPage extends StatefulWidget {
   @override
@@ -312,16 +317,33 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
   }
 
   // Function to handle when a bomb is clicked.
+
   void _handleGameOver() {
+    _saveWinnings();
     _createDialog(false);
   }
 
   void _handleWin() {
+    _saveWinnings();
     _createDialog(true);
   }
 
-  void _createDialog(bool win){
+  Future<void> _saveWinnings() async {
+    var repository = TransactionRepository();
 
+    Transaction t = Transaction(null, DateTime.now(), TimeInterval.DAY1_B.index,
+        "Minesweeper Rewards", _calculateReward().toDouble());
+    repository.addTranscation(t);
+
+    var challengeRepository = ChallengeRepository();
+    
+    var c = await challengeRepository.getOne(minesweeperInterval.index)
+      ..markDone();
+
+    await challengeRepository.update(c);
+  }
+
+  void _createDialog(bool win) {
     var title = win ? "Congratulations!" : "Game Over!";
     var content = win ? "You Won!" : "Too bad, you found a mine!";
 
@@ -334,7 +356,7 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
           content: Text("$content You earned ${clicksSurvived}M IDR!"),
           actions: <Widget>[
             FlatButton(
-              onPressed: _closeDialogAndReturnToPreviousPage,
+              onPressed: _returnToHome,
               child: Text("Back to Home Page"),
             ),
           ],
@@ -343,9 +365,9 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
     );
   }
 
-  void _closeDialogAndReturnToPreviousPage() {
+  void _returnToHome() {
     Navigator.of(context).pop();
-    Navigator.of(context).pop(_calculateReward());
+    Navigator.of(context).pop();
   }
 
   ///User earns [TILE_BOUNTY] for each click that does not kill them

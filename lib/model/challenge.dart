@@ -10,11 +10,13 @@ class Challenge {
   final String description;
   final int lowestReward;
   final int highestReward;
-  final bool done;
+  bool _done;
   final Mood mood;
 
-  const Challenge(this.timeInterval, this.title, this.description,
-      this.lowestReward, this.highestReward, this.done, this.mood);
+  get done => _done;
+
+  Challenge(this.timeInterval, this.title, this.description,
+      this.lowestReward, this.highestReward, this._done, this.mood);
 
   Challenge.fromDB(Map<String, dynamic> map)
       : timeInterval = TimeInterval.values[map[COL_TIME_INTERVAL]],
@@ -22,7 +24,7 @@ class Challenge {
         description = map[COL_DESCRIPTION],
         lowestReward = map[COL_LOWEST_REWARD],
         highestReward = map[COL_HIGHEST_REWARD],
-        done = SQLiteDataConverter.readBool(map[COL_DONE]),
+        _done = SQLiteDataConverter.readBool(map[COL_DONE]),
         mood = Mood.values[map[COL_MOOD]];
 
   Map<String, dynamic> toDB() {
@@ -32,9 +34,13 @@ class Challenge {
     data[COL_DESCRIPTION] = this.description;
     data[COL_LOWEST_REWARD] = this.lowestReward;
     data[COL_HIGHEST_REWARD] = this.highestReward;
-    data[COL_DONE] = this.done;
+    data[COL_DONE] = this._done;
     data[COL_MOOD] = this.mood.index;
     return data;
+  }
+
+  void markDone(){
+    this._done = true;
   }
 
   @override
