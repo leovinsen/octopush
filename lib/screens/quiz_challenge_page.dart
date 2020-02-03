@@ -6,7 +6,6 @@ import 'package:octopush/widgets/primary_button.dart';
 import 'package:octopush/widgets/primary_container.dart'
     show getPrimaryDecoration;
 import 'package:octopush/widgets/safe_scaffold.dart';
-import 'package:octopush/widgets/simple_alert_dialog.dart';
 
 import 'package:octopush/audiocache_ext.dart';
 
@@ -163,12 +162,8 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
   void _handleCorrectAnswer() {
     player.play('sound_correct_answer.mp3');
 
-    if (chosenAnswerIndex == quizzes.length) {
-      // End the game
-      showDialog(
-        context: context,
-        builder: (_) => SimpleAlertDialog('You finished the game!'),
-      );
+    if (index + 1 == quizzes.length) {
+      _handleVictory();
     } else {
       //Go to next question
       chosenAnswerIndex = -1;
@@ -182,6 +177,44 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
     player.play('sound_wrong_answer.mp3');
     _gameOver = true;
     setState(() {});
+  }
+
+  void _handleVictory() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => _VictoryPage(),
+      ),
+    );
+  }
+}
+
+class _VictoryPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var player = AudioCache()..playIntro();
+    return SafeScaffold(
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              'You won!',
+              style: titleStyleLight,
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            PrimaryButton(
+              onPressed: () =>
+                  Navigator.of(context).popUntil(ModalRoute.withName('/')),
+              buttonText: 'Finish',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
