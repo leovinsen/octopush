@@ -366,8 +366,7 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
   }
 
   void _returnToHome() {
-    Navigator.of(context).pop();
-    Navigator.of(context).pop();
+    Navigator.of(context).popUntil(ModalRoute.withName('/'));
   }
 
   ///User earns [TILE_BOUNTY] for each click that does not kill them

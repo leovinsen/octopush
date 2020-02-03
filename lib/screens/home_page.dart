@@ -160,14 +160,14 @@ class _HomePageState extends State<HomePage> {
                 iconData: Icons.calendar_today,
                 label: 'Advance day',
               ),
-              ClickableLabel(
-                onTap: () => _pushPage(
-                  context,
-                  MinesweeperPage(),
-                ),
-                iconData: Icons.games,
-                label: 'Minesweeper',
-              ),
+              // ClickableLabel(
+              //   onTap: () => _pushPage(
+              //     context,
+              //     MinesweeperPage(),
+              //   ),
+              //   iconData: Icons.games,
+              //   label: 'Minesweeper',
+              // ),
               ClickableLabel(
                   onTap: () => _pushPage(
                         context,

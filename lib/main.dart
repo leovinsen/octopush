@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Octopush',
         routes: {
+          '/' : (_) => RootPage(),
           '/minesweeper': (_) => MinesweeperPage(),
           '/quiz': (_) => QuizChallengeSplashPage(),
         },
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
           accentColor: accentColor,
           scaffoldBackgroundColor: backgroundColor,
         ),
-        home: RootPage());
+        initialRoute: '/',);
   }
 }
 
