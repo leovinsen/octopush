@@ -132,6 +132,10 @@ class _MinesweeperPageState extends State<MinesweeperPage> {
                 return InkWell(
                   // Opens square
                   onTap: () {
+
+                    //Disable click if tile is already opened
+                    if(openedSquares[position]) return;
+
                     clicksSurvived++;
 
                     var soundtrack = TRACK_CHA_CHING;
