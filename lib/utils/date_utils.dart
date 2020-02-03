@@ -13,7 +13,7 @@ class DateUtils {
   }
 
   static String formatDateDDMMYY(DateTime dt){
-    return DateFormat("DD/MM/yyyy").format(dt);
+    return DateFormat("dd/MM/yyyy").format(dt);
   }
 
   static String formatTime(DateTime dt) {
