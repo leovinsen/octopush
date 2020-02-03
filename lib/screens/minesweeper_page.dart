@@ -25,7 +25,7 @@ enum ImageType {
   flagged,
 }
 
-const TILE_BOUNTY = 10 * MILLION;
+const TILE_BOUNTY = 1 * MILLION;
 const TRACK_CHA_CHING = 'sound_cha_ching.mp3';
 const TRACK_GAME_OVER = 'sound_game_over.mp3';
 const minesweeperInterval = TimeInterval.DAY1_B;
