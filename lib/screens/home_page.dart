@@ -46,7 +46,6 @@ class _HomePageState extends State<HomePage> {
     age = _calculateAge(gameData.currentInterval.index);
     day = _calculateDay(gameData.currentInterval.index);
 
-    balance = BlocProvider.of<UserBloc>(context).gameData.balance;
     challenges = [];
   }
 
@@ -74,6 +73,7 @@ class _HomePageState extends State<HomePage> {
                 age = _calculateAge(state.interval);
                 day = _calculateDay(state.interval);
                 challenges = state.challenges;
+                balance = state.trb;
               });
             }
 
@@ -82,6 +82,7 @@ class _HomePageState extends State<HomePage> {
                 age = _calculateAge(state.interval);
                 day = _calculateDay(state.interval);
                 challenges = state.challenges;
+                balance = state.trb;
               });
 
               showDialog(
@@ -320,10 +321,14 @@ class _HomePageState extends State<HomePage> {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10.0),
-              child: _buildAboutYouSegment(
-                  label: 'Your Current TRB:',
-                  value: CurrencyUtils.formatToIdr(balance)),
-            )
+              child: balance == null
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _buildAboutYouSegment(
+                      label: 'Your Current TRB:',
+                      value: CurrencyUtils.formatToIdr(balance)),
+            ),
           ],
         ),
       ),
@@ -427,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                   'This will delete all of your progress and account information. Proceed?',
               onNoPressed: () => Navigator.of(context).pop(),
               onYesPressed: () {
-                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
                 BlocProvider.of<UserBloc>(context).add(ClearData());
               },
             ));

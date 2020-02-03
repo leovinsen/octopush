@@ -1,5 +1,7 @@
 import 'package:octopush/database/database.dart';
 import 'package:octopush/model/game_data.dart';
+import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/model/transaction.dart';
 import 'package:octopush/model/user.dart';
 import 'package:octopush/repository/game_data_repository.dart';
 import 'package:octopush/repository/transaction_repository.dart';
@@ -10,6 +12,8 @@ import 'user_state.dart';
 import 'package:bloc/bloc.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
+  final _startingBalance = 2000000.0;
+
   final UserRepository _userRepo;
   final GameDataRepository _gameDataRepo;
   final TransactionRepository _transactionRepository;
@@ -54,11 +58,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     if (event is InitializeGame) {
       bool b = await _gameDataRepo.initializeData(event.jobIndex);
+    
+      await _addInitialSavings();
+      
       _gameData = _gameDataRepo.getGameData();
 
       yield GameDataFound(_userRepo.getUser(), _gameData);
     }
-    
+
     if (event is ClearData) {
       await _userRepo.clearUser();
       await DatabaseProvider.instance.deleteDB();
@@ -74,5 +81,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   void onTransition(Transition<UserEvent, UserState> transition) {
     super.onTransition(transition);
     print(transition);
+  }
+
+  Future<int> _addInitialSavings() async {
+      var t = Transaction(null, DateTime.now(), TimeInterval.DAY1_A.index,
+          "Initial Savings", _startingBalance);
+      return _transactionRepository.addTranscation(t);
   }
 }

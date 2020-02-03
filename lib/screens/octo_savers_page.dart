@@ -37,7 +37,10 @@ class OctoSaversPage extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: <Widget>[
-              PageHeader(pageName: 'Octo Savers', headerIconUrl: 'assets/ic_octo_savers.png',),
+              PageHeader(
+                pageName: 'Octo Savers',
+                headerIconUrl: 'assets/ic_octo_savers.png',
+              ),
               SizedBox(height: 20.0),
               _balanceInfo(context),
               SizedBox(height: 20.0),
@@ -72,25 +75,36 @@ class OctoSaversPage extends StatelessWidget {
       ),
     );
   }
-  
-  Widget _balanceInfo(BuildContext context) {
-    double balance = BlocProvider.of<UserBloc>(context).gameData.balance;
 
-    return PrimaryContainer(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(
-            'Your current balance:',
-            style: subtitleStyleLight,
-          ),
-          Text(
-            CurrencyUtils.formatToIdr(balance),
-            style: titleStyleLight,
-          ),
-        ],
-      ),
+  Widget _balanceInfo(BuildContext context) {
+    return FutureBuilder(
+      future: transactionRepo.getAllTranscation(),
+      builder: (_, snapshot) {
+        if (snapshot.hasData) {
+          List<Transaction> transactions = snapshot.data;
+          var balance = 0.0;
+          transactions.forEach((t) => balance += t.amount);
+
+          return PrimaryContainer(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Text(
+                  'Your current balance:',
+                  style: subtitleStyleLight,
+                ),
+                Text(
+                  CurrencyUtils.formatToIdr(balance),
+                  style: titleStyleLight,
+                ),
+              ],
+            ),
+          );
+        }
+
+        return CircularProgressIndicator();
+      },
     );
   }
 

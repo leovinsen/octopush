@@ -20,15 +20,16 @@ class InitialHomeState extends HomeState {
 class HomeStateLoaded extends HomeState {
   final int interval;
   final List<Challenge> challenges;
+  final double trb;
 
-  const HomeStateLoaded(this.interval, this.challenges);
+  const HomeStateLoaded(this.interval, this.challenges, this.trb);
 
   @override
   List<Object> get props => [interval, challenges];
 
   @override
   String toString() {
-    return '$HomeStateLoaded { interval: $interval, challenge: $challenges}';
+    return '$HomeStateLoaded { interval: $interval, challenge: $challenges, trb: $trb';
   }
 
 }
@@ -36,15 +37,16 @@ class HomeStateLoaded extends HomeState {
 class HomeStateIncremented extends HomeState {
   final int interval;
   final List<Challenge> challenges;
+  final double trb;
 
-  const HomeStateIncremented(this.interval, this.challenges);
+  const HomeStateIncremented(this.interval, this.challenges, this.trb);
 
   @override
-  List<Object> get props => [interval, challenges];
+  List<Object> get props => [interval, challenges, trb];
 
   @override
   String toString() {
-    return '$HomeStateIncremented { interval: $interval, challenge: $challenges}';
+    return '$HomeStateIncremented { interval: $interval, challenge: $challenges, trb: $trb}';
   }
 
 }

@@ -5,11 +5,7 @@ import 'package:octopush/model/time_interval.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const PREFS_JOB = "job";
-const PREFS_BALANCE = "balance";
 const PREFS_INTERVAL = "interval";
-
-//Starting balance at 2M IDR
-const STARTING_BALANCE = 2000000.0;
 
 class GameDataRepository {
   final SharedPreferences prefs;
@@ -19,36 +15,26 @@ class GameDataRepository {
   GameData getGameData() {
     int jobIndex = prefs.getInt(PREFS_JOB);
     int intervalIndex = prefs.getInt(PREFS_INTERVAL);
-    double balance = prefs.getDouble(PREFS_BALANCE);
 
     ///If job index is null then game is not yet initialized by user
-    if (jobIndex == null || intervalIndex == null || balance == null)
+    if (jobIndex == null || intervalIndex == null)
       return null;
 
     var job = Job.values[jobIndex];
 
     var interval = TimeInterval.values[intervalIndex];
 
-    GameData userData = GameData(job, balance, interval);
+    GameData userData = GameData(job, interval);
 
     return userData;
   }
 
   Future<bool> initializeData(int jobIndex) async {
     bool a = await prefs.setInt(PREFS_JOB, jobIndex);
-    bool b = await prefs.setDouble(PREFS_BALANCE, STARTING_BALANCE);
-    bool c = await prefs.setInt(PREFS_INTERVAL, TIME_1A);
+    bool b = await prefs.setInt(PREFS_INTERVAL, TIME_1A);
 
-    return a && b && c;
+    return a && b;
   }
-
-  Future<bool> saveBalance(double balance) async {
-    return prefs.setDouble(PREFS_BALANCE, balance);
-  }
-
-  // Future<bool> saveUserJob(int job) async {
-  //   return prefs.setInt(PREFS_JOB, job);
-  // }
 
   Future<bool> clearUserData() async {
     return await prefs.clear();
