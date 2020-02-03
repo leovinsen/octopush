@@ -1,6 +1,10 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:flutter/material.dart';
+import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/model/transaction.dart';
+import 'package:octopush/repository/challenge_repository.dart';
+import 'package:octopush/repository/transaction_repository.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/primary_button.dart';
 import 'package:octopush/widgets/primary_container.dart'
@@ -9,7 +13,11 @@ import 'package:octopush/widgets/safe_scaffold.dart';
 
 import 'package:octopush/audiocache_ext.dart';
 
+import 'quiz_challenge/widgets/reward_indicator.dart';
+
 enum Answer { A, B, C, D }
+
+const quizInterval = TimeInterval.DAY11_B;
 
 class QuizChallengeSplashPage extends StatelessWidget {
   @override
@@ -90,6 +98,15 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              RewardIndicator(
+                currentReward:
+                    index == 0 ? 0.0 : quizzes[index - 1].reward.toDouble(),
+                nextReward: quiz.reward.toDouble(),
+                maxReward: quizzes.last.reward.toDouble(),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
               Container(
                 width: double.infinity,
                 child: Text(
@@ -143,10 +160,10 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
     );
   }
 
-  void _onBtnTap(Quiz quiz, BuildContext context){
-    if(_gameOver){
+  void _onBtnTap(Quiz quiz, BuildContext context) {
+    if (_gameOver) {
       Navigator.of(context).pop();
-    }  else {
+    } else {
       _submitAnswer(quiz, context);
     }
   }
@@ -177,6 +194,7 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
     player.play('sound_wrong_answer.mp3');
     _gameOver = true;
     setState(() {});
+    _giveWinnings();
   }
 
   void _handleVictory() {
@@ -185,6 +203,20 @@ class _QuizChallengePageState extends State<QuizChallengePage> {
         builder: (_) => _VictoryPage(),
       ),
     );
+    _giveWinnings();
+  }
+
+  void _giveWinnings() async {
+    var transactionRepository = TransactionRepository();
+    var reward = Transaction(null, DateTime.now(), quizInterval.index,
+        "Who Wants To Be Jutawan Rwards", quizzes[index].reward.toDouble());
+
+    await transactionRepository.addTranscation(reward);
+
+    var challengeRepository = ChallengeRepository();
+    var c = await challengeRepository.getOne(quizInterval.index)
+      ..markDone();
+    await challengeRepository.update(c);
   }
 }
 
@@ -198,9 +230,11 @@ class _VictoryPage extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You won!',
+              'You won 10M IDR! We will transfer the reward to you shortly.',
+              textAlign: TextAlign.center,
               style: titleStyleLight,
             ),
             SizedBox(
@@ -242,6 +276,7 @@ class _AnswerListState extends State<AnswerList> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: widget.quiz.answers.length,
       itemBuilder: (_, i) {
@@ -301,13 +336,15 @@ class Quiz {
   final String question;
   final List<String> answers;
   final Answer correctAnswer;
+  final int reward;
 
-  Quiz(this.question, this.answers, this.correctAnswer);
+  Quiz(this.question, this.answers, this.correctAnswer, this.reward);
 
   Quiz.fromMap(Map<String, dynamic> map)
       : question = map['question'],
         answers = map['answers'],
-        correctAnswer = Answer.values[map['correct_answer']];
+        correctAnswer = Answer.values[map['correct_answer']],
+        reward = map['reward'];
 }
 
 const List<Map<String, dynamic>> quizMap = [
@@ -315,7 +352,8 @@ const List<Map<String, dynamic>> quizMap = [
     "question":
         "What is the minimum age to apply for a car loan in CIMB Niaga?",
     "answers": ["16", "18", "21", "25"],
-    "correct_answer": 2
+    "correct_answer": 2,
+    "reward": 100000
   },
   {
     "question": "Which of these products is not CIMB Niaga’s Savings product?",
@@ -325,7 +363,8 @@ const List<Map<String, dynamic>> quizMap = [
       "Tabunganku",
       "Tabungan CIMB Senior"
     ],
-    "correct_answer": 3
+    "correct_answer": 3,
+    "reward": 250000
   },
   {
     "question": "What is the definition of someone being financially literate?",
@@ -335,7 +374,8 @@ const List<Map<String, dynamic>> quizMap = [
       "Having theoretical financial knowledge",
       "Having knowledge on currencies"
     ],
-    "correct_answer": 0
+    "correct_answer": 0,
+    "reward": 500000
   },
   {
     "question": "What is the definition of someone being financially included?",
@@ -345,7 +385,8 @@ const List<Map<String, dynamic>> quizMap = [
       "Being able to store money and draw money at any time anywhere",
       "Having access to useful and affordable financial products and services that meet their needs"
     ],
-    "correct_answer": 3
+    "correct_answer": 3,
+    "reward": 750000
   },
   {
     "question": "What is the definition of budget?",
@@ -355,7 +396,8 @@ const List<Map<String, dynamic>> quizMap = [
       "An estimate of income and expenditure for a set period of time",
       "Money paid regularly at a particular rate "
     ],
-    "correct_answer": 2
+    "correct_answer": 2,
+    "reward": 1000000
   },
   {
     "question": "What is the definition of insurance?",
@@ -365,7 +407,8 @@ const List<Map<String, dynamic>> quizMap = [
       "A bank account that earns interest",
       "A sum of money that is expected to be paid back with interest"
     ],
-    "correct_answer": 1
+    "correct_answer": 1,
+    "reward": 1500000
   },
   {
     "question": "What is the definition of the unbanked?",
@@ -375,12 +418,14 @@ const List<Map<String, dynamic>> quizMap = [
       "People who do not know how to deposit or draw money",
       "People who do not have sufficient knowledge on bank products"
     ],
-    "correct_answer": 0
+    "correct_answer": 0,
+    "reward": 3000000
   },
   {
     "question": "Which investment manager is in collaboration with CIMB Niaga?",
     "answers": ["Principle", "JP Morgan Chase", "Allianz", "UBS"],
-    "correct_answer": 0
+    "correct_answer": 0,
+    "reward": 5000000
   },
   {
     "question": "What does financial deepening mean?",
@@ -390,12 +435,14 @@ const List<Map<String, dynamic>> quizMap = [
       "The increase of amount of people who need financial services",
       "The availability of financial knowledge access"
     ],
-    "correct_answer": 1
+    "correct_answer": 1,
+    "reward": 7000000
   },
   {
     "question":
         "What is the name of CIMB Niaga’s health insurance that provides protection due to unexpected illness?",
     "answers": ["Xtra Kesehatan", "Xtra Sehat", "Xtra Medika", "Xtra Health"],
-    "correct_answer": 2
+    "correct_answer": 2,
+    "reward": 10000000
   },
 ];
