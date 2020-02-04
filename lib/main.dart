@@ -11,6 +11,7 @@ import 'bloc/user_bloc.dart';
 import 'repository/user_repository.dart';
 import 'root_page.dart';
 import 'screens/minesweeper_page.dart';
+import 'screens/mutual_funds_detail/mutual_funds_detail_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           '/minesweeper': (_) => MinesweeperPage(),
           '/quiz': (_) => QuizChallengeSplashPage(),
           routeMutualFunds: (_) => MutualFundsPage(),
+          routeMutualFundsDetail: (_) => MutualFundsDetailPage()
         },
         theme: ThemeData(
           primarySwatch: Colors.red,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:octopush/model/mutual_funds.dart';
 import 'package:octopush/model/mutual_funds_product.dart';
+import 'package:octopush/routes.dart';
+import 'package:octopush/screens/mutual_funds_detail/mutual_funds_detail_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/widgets/primary_container.dart';
 import 'package:octopush/widgets/safe_scaffold.dart';
@@ -9,25 +11,30 @@ const List<Map<String, dynamic>> mutualFundsJson = [
   {
     "category_name": "BNP Paribas",
     "products": [
-      {"name": "Rupiah Plus IDR", "type": 0, "yield": 23.55},
-      {"name": "Omega", "type": 1, "yield": 50.65},
-      {"name": "Persona", "type": 2, "yield": 79.20}
+      {"id": 0, "name": "Rupiah Plus IDR", "type": 0, "yield": 23.55},
+      {"id": 1, "name": "Omega", "type": 1, "yield": 50.65},
+      {"id": 2, "name": "Persona", "type": 2, "yield": 79.20}
     ]
   },
   {
     "category_name": "Schroder Dana",
     "products": [
-      {"name": "Likuid", "type": 0, "yield": 25.95},
-      {"name": "Andalan II", "type": 1, "yield": 46.20},
-      {"name": "Prestasi Plus", "type": 2, "yield": 83.80}
+      {"id": 3, "name": "Likuid", "type": 0, "yield": 25.95},
+      {"id": 4, "name": "Andalan II", "type": 1, "yield": 46.20},
+      {"id": 5, "name": "Prestasi Plus", "type": 2, "yield": 83.80}
     ]
   },
   {
     "category_name": "FFS Principal",
     "products": [
-      {"name": "Cash Fund", "type": 0, "yield": 32.70},
-      {"name": "Total Return Bond Fund", "type": 1, "yield": 41.40},
-      {"name": "Islamic Equity Growth Syariah", "type": 2, "yield": 80.10}
+      {"id": 6, "name": "Cash Fund", "type": 0, "yield": 32.70},
+      {"id": 7, "name": "Total Return Bond Fund", "type": 1, "yield": 41.40},
+      {
+        "id": 8,
+        "name": "Islamic Equity Growth Syariah",
+        "type": 2,
+        "yield": 80.10
+      }
     ]
   }
 ];
@@ -135,7 +142,12 @@ class MutualFundsProductWidget extends StatelessWidget {
     return Padding(
       padding: expansionTilePadding,
       child: GestureDetector(
-        onTap: null,
+        onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => MutualFundsDetailPage(product: product),
+          ),
+        ),
+        // onTap: () => Navigator.of(context).pushNamed(routeMutualFundsDetail),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
