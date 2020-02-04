@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:octopush/repository/game_data_repository.dart';
+import 'package:octopush/routes.dart';
+import 'package:octopush/screens/mutual_funds/mutual_funds_page.dart';
 import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +34,7 @@ class MyApp extends StatelessWidget {
           '/' : (_) => RootPage(),
           '/minesweeper': (_) => MinesweeperPage(),
           '/quiz': (_) => QuizChallengeSplashPage(),
+          routeMutualFunds: (_) => MutualFundsPage(),
         },
         theme: ThemeData(
           primarySwatch: Colors.red,

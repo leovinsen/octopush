@@ -8,6 +8,7 @@ import 'package:octopush/bloc/user_event.dart';
 import 'package:octopush/model/challenge.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/routes.dart';
 import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/styles.dart';
@@ -18,7 +19,7 @@ import 'package:octopush/widgets/notification_button.dart';
 import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 
 import 'installment_page.dart';
-import 'minesweeper_page.dart';
+import 'mutual_funds/mutual_funds_page.dart';
 import 'octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -368,6 +369,7 @@ class _HomePageState extends State<HomePage> {
             _buildOptionsCard(
               imageUrl: 'assets/ic_mutual_funds.png',
               label: 'Mutual Funds',
+              onTap: () => Navigator.of(context).pushNamed(routeMutualFunds)
             ),
           ],
         ),
