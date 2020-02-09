@@ -21,62 +21,61 @@ class NotificationDetailBody extends StatelessWidget {
     //Hardcode special cases
     switch (challenge.timeInterval) {
       case TimeInterval.DAY1_B:
-        //Open Minesweeper page
-        return NotificationActionButton(
-          text: 'Play Now!',
-          onPressed: () => Navigator.of(context).pushNamed('/minesweeper'),
-        );
+        return PlayMinesweeperButton();
         break;
       case TimeInterval.DAY2_B:
-        //Car
-        var options =
-            _installmentRepository.getOptions(InstallmentType.AUTOMOBILE);
-        var basePrice = CurrencyUtils.formatToIdr(
-            basePrices[InstallmentType.AUTOMOBILE.index].toDouble());
-        return Column(
-          children: <Widget>[
-            Text(
-              'Base Price: $basePrice',
-              style: largeTextStyleLight,
-            ),
-            InstallmentOptionList(options: options),
-          ],
-        );
+        return _buildInstallmentWidget(InstallmentType.AUTOMOBILE);
         break;
       case TimeInterval.DAY5_A:
-        //House
-        var options =
-            _installmentRepository.getOptions(InstallmentType.MORTGAGE);
-        var basePrice = CurrencyUtils.formatToIdr(
-            basePrices[InstallmentType.MORTGAGE.index].toDouble());
-            
-        return Column(
-          children: <Widget>[
-            Text(
-              'Base Price: $basePrice',
-              style: largeTextStyleLight,
-            ),
-            InstallmentOptionList(options: options),
-          ],
-        );
+        return _buildInstallmentWidget(InstallmentType.MORTGAGE);
         break;
       case TimeInterval.DAY11_B:
-        //Open Who Wants To Be A Jutawan game
-        return NotificationActionButton(
-          text: 'Play Now!',
-          onPressed: () => Navigator.of(context).pushNamed('/quiz'),
-        );
+        return PlayJutawanButton();
         break;
       default:
+        //Most notifications will use the following Widget
+        return challenge.lowestReward.isNegative
+            ? PaymentOptions()
+            : NotificationActionButton(
+                text: 'Claim Rewards',
+                onPressed: null,
+              );
         break;
     }
+  }
 
-    //Most notifications will use the following Widget
-    return challenge.lowestReward.isNegative
-        ? PaymentOptions()
-        : NotificationActionButton(
-            text: 'Claim Rewards',
-            onPressed: null,
-          );
+  Widget _buildInstallmentWidget(InstallmentType type) {
+    var options = _installmentRepository.getOptions(type);
+    var basePrice = CurrencyUtils.formatToIdr(
+        basePrices[InstallmentType.AUTOMOBILE.index].toDouble());
+    return Column(
+      children: <Widget>[
+        Text(
+          'Base Price: $basePrice',
+          style: largeTextStyleLight,
+        ),
+        InstallmentOptionList(options: options),
+      ],
+    );
+  }
+}
+
+class PlayMinesweeperButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return NotificationActionButton(
+      text: 'Play Now!',
+      onPressed: () => Navigator.of(context).pushNamed('/minesweeper'),
+    );
+  }
+}
+
+class PlayJutawanButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return NotificationActionButton(
+      text: 'Play Now!',
+      onPressed: () => Navigator.of(context).pushNamed('/jutawan'),
+    );
   }
 }
