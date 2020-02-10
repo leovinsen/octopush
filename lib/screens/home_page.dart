@@ -86,24 +86,25 @@ class _HomePageState extends State<HomePage> {
                 balance = state.trb;
               });
 
-              showDialog(
-                context: context,
-                builder: (_) => AlertDialog(
-                  content: Text(
-                      "Day advanced - now it's day $day session ${state.interval % 2 + 1}"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text('OK'),
-                      onPressed: () => Navigator.of(context).pop(),
-                    )
-                  ],
-                ),
-              );
+              _showNotificationDayAdvanced(context, state.interval);
             }
           },
         ),
       ),
     );
+  }
+
+  void _showNotificationDayAdvanced(BuildContext context, int interval) {
+    var message =
+        "Day advanced - now it's day $day session ${interval % 2 + 1}";
+
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: baseStyle,
+      ),
+      duration: Duration(seconds: 1),
+    ));
   }
 
   ///for [currentInterval] see [TimeInterval].
