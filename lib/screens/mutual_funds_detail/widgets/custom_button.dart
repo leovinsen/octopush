@@ -18,7 +18,10 @@ class CustomButton extends StatelessWidget {
         height: 50.0,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0), color: color),
-        child: Text('SELL', style: titleStyleLight),
+        child: Text(
+          text,
+          style: titleStyleLight,
+        ),
       ),
     );
   }
