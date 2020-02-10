@@ -14,7 +14,7 @@ class TransactionService {
 
     if (!canPurchase) return false;
 
-    var transaction = Transaction.newDBRecord(interval.index, title, amount);
+    var transaction = Transaction.newDBRecord(interval.index, title, amount * -1);
 
     await _repo.addTranscation(transaction);
 
