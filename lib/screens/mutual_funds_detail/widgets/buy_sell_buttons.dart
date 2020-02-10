@@ -14,8 +14,8 @@ class BuySellButtons extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: CustomButton(
-            color: Theme.of(context).accentColor,
-            onPressed: () => onSellPressed(),
+            color: Theme.of(context).accentColor.withOpacity(0.3),
+            onPressed: onSellPressed,
             text: 'SELL',
           ),
         ),
@@ -25,7 +25,7 @@ class BuySellButtons extends StatelessWidget {
         Expanded(
           child: CustomButton(
             color: Colors.green,
-            onPressed: () => onBuyPressed(),
+            onPressed: onBuyPressed,
             text: 'BUY',
           ),
         ),

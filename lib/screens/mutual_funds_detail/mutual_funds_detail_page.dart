@@ -142,7 +142,7 @@ class MutualFundsDetailPage extends StatelessWidget {
   void _buy(BuildContext context, int amount) async {
     await createService()
       ..buyMutualFunds(product, amount.toDouble());
-    Navigator.of(context).popUntil(ModalRoute.withName('/mutualFunds'));
+    Navigator.of(context).popUntil(ModalRoute.withName('/'));
   }
 
   Future<MutualFundsService> createService() async {
