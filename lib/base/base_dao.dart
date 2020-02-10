@@ -1,14 +1,10 @@
 import 'package:octopush/base/base_entity.dart';
-import 'package:octopush/database/database.dart';
 import 'package:octopush/exception/query_set_exception.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 abstract class BaseDao<T extends BaseEntity> {
-  final _dbProvider = DatabaseProvider.instance;
-
-  Future<Database> _getDb() async {
-    return _dbProvider.db;
-  }
+  final Database _db;
+  const BaseDao(this._db);
 
   String tableNameInDB();
 
@@ -43,15 +39,13 @@ abstract class BaseDao<T extends BaseEntity> {
   ///Convenience method for querying the DB
   Future<List<Map<String, dynamic>>> query(
       {String where, List<dynamic> whereArgs}) async {
-    var db = await _getDb();
-    return await db.query(tableNameInDB(), where: where, whereArgs: whereArgs);
+    return await _db.query(tableNameInDB(), where: where, whereArgs: whereArgs);
   }
 
   Map<String, dynamic> entityToDB(T entity);
 
   Future<int> update(T entity) async {
-    var db = await _getDb();
-    var result = await db.update(tableNameInDB(), entityToDB(entity),
+    var result = await _db.update(tableNameInDB(), entityToDB(entity),
         where: primaryKeyWhereClause(),
         whereArgs: [primaryKeyWhereArgs(entity)]);
 
@@ -59,8 +53,7 @@ abstract class BaseDao<T extends BaseEntity> {
   }
 
   Future<int> add(T entity) async {
-    var db = await _getDb();
-    var result = await db.insert(tableNameInDB(), entityToDB(entity));
+    var result = await _db.insert(tableNameInDB(), entityToDB(entity));
 
     return result;
   }

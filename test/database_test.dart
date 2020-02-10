@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:octopush/database/dao/mutual_funds_history_dao.dart';
 import 'package:octopush/database/database.dart';
+import 'package:octopush/database/schema/schema_mutual_funds_history.dart';
 import 'package:octopush/model/challenge.dart';
+import 'package:octopush/model/mutual_funds_history.dart';
+import 'package:octopush/repository/mutual_funds_history_repository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_ffi_test/sqflite_ffi_test.dart';
 
@@ -9,7 +13,9 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   sqfliteFfiTestInit();
 
-  test('simple sqflite example', () async {
+
+
+  test('DB intensive test', () async {
     var db = await openDatabase(inMemoryDatabasePath);
     expect(await db.getVersion(), 0);
 
@@ -30,6 +36,24 @@ void main() {
     print(result[11]);
     print(result[23]);
     expect(result.length, 24);
+
+    await db.execute(MF_HISTORY_CREATE_TABLE);
+
+    final mfRepo = MutualFundsHistoryRepository(MutualFundsHistoryDao(db));
+    List<MutualFundsHistory> mfHistory = await mfRepo.getAll();
+    expect(mfHistory.length, 0);
+
+    int newId = await mfRepo.add(MutualFundsHistory.newDBRecord(0, 0, 100000));
+    expect(newId, 1);
+
+
+    mfHistory = await mfRepo.getAll();
+    print(mfHistory);
+    print('a');
+    expect(mfHistory.length, 1);
+    
     await db.close();
   });
+
+  
 }
