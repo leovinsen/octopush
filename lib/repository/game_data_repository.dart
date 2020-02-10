@@ -2,27 +2,26 @@ import 'package:octopush/exception/illegal_interval_exception.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/game_data.dart';
 import 'package:octopush/model/time_interval.dart';
+import 'package:octopush/service/interval_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const PREFS_JOB = "job";
-const PREFS_INTERVAL = "interval";
 
 class GameDataRepository {
   final SharedPreferences prefs;
+  final IntervalService intervalService;
 
-  const GameDataRepository(this.prefs);
+  GameDataRepository(this.prefs)
+      : intervalService = IntervalService(prefs);
 
   GameData getGameData() {
     int jobIndex = prefs.getInt(PREFS_JOB);
-    int intervalIndex = prefs.getInt(PREFS_INTERVAL);
+    TimeInterval interval = intervalService.getCurrentInterval();
 
     ///If job index is null then game is not yet initialized by user
-    if (jobIndex == null || intervalIndex == null)
-      return null;
+    if (jobIndex == null || interval == null) return null;
 
     var job = Job.values[jobIndex];
-
-    var interval = TimeInterval.values[intervalIndex];
 
     GameData userData = GameData(job, interval);
 
