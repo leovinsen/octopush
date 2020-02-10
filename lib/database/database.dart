@@ -5,6 +5,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'schema/schema_mutual_funds_history.dart';
+
 const DB_NAME = "octopush.db";
 
 const TABLE_HISTORY = "transaction_history";
@@ -38,7 +40,7 @@ class DatabaseProvider {
     String path = join(documentsDirectory.path, DB_NAME);
 
     var database = await openDatabase(path,
-        version: 3, onCreate: initDB, onUpgrade: onUpgrade);
+        version: 4, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
   }
 
@@ -68,6 +70,8 @@ class DatabaseProvider {
         "$COL_DONE INTEGER DEFAULT 0, "
         "$COL_MOOD INTEGER NOT NULL "
         ")");
+
+    await database.execute(MF_HISTORY_CREATE_TABLE);
   
     ///Feed initial data
     challengeJson.forEach((map) async => await database.insert(TABLE_CHALLENGE, map));
