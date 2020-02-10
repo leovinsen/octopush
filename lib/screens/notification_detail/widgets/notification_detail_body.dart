@@ -4,6 +4,7 @@ import 'package:octopush/model/installment.dart';
 import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/repository/installment_repository.dart';
 import 'package:octopush/screens/installment_detail/widgets/installment_option_list.dart';
+import 'package:octopush/service/qr_service.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 
@@ -25,6 +26,9 @@ class NotificationDetailBody extends StatelessWidget {
         break;
       case TimeInterval.DAY2_B:
         return _buildInstallmentWidget(InstallmentType.AUTOMOBILE);
+        break;
+      case TimeInterval.DAY4_A:
+        return ScanQrButton();
         break;
       case TimeInterval.DAY5_A:
         return _buildInstallmentWidget(InstallmentType.MORTGAGE);
@@ -76,6 +80,19 @@ class PlayJutawanButton extends StatelessWidget {
     return NotificationActionButton(
       text: 'Play Now!',
       onPressed: () => Navigator.of(context).pushNamed('/jutawan'),
+    );
+  }
+}
+
+class ScanQrButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
+    var qrService = QrService();
+
+    return NotificationActionButton(
+      text: 'Scan QR',
+      onPressed: () => qrService.scan(),
     );
   }
 }

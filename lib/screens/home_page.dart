@@ -11,6 +11,7 @@ import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/routes.dart';
 import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/screens/quiz_challenge_page.dart';
+import 'package:octopush/service/qr_service.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
@@ -19,7 +20,6 @@ import 'package:octopush/widgets/notification_button.dart';
 import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 
 import 'installment_page.dart';
-import 'mutual_funds/mutual_funds_page.dart';
 import 'octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -176,6 +176,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                   iconData: Icons.question_answer,
                   label: 'Who Wants to be a Jutawan'),
+              ClickableLabel(
+                onTap: () => _scanQR(),
+                iconData: Icons.camera_alt,
+                label: 'Scan QR',
+              ),
               SizedBox(
                 height: 20.0,
               ),
@@ -189,6 +194,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void _scanQR() {
+    var qrService = QrService();
+    qrService.scan();
   }
 
   void _incrementInterval(BuildContext context) {
@@ -367,10 +377,9 @@ class _HomePageState extends State<HomePage> {
               label: 'Time Deposit',
             ),
             _buildOptionsCard(
-              imageUrl: 'assets/ic_mutual_funds.png',
-              label: 'Mutual Funds',
-              onTap: () => Navigator.of(context).pushNamed(routeMutualFunds)
-            ),
+                imageUrl: 'assets/ic_mutual_funds.png',
+                label: 'Mutual Funds',
+                onTap: () => Navigator.of(context).pushNamed(routeMutualFunds)),
           ],
         ),
         Row(
