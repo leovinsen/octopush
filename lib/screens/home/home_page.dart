@@ -337,11 +337,12 @@ class _HomePageState extends State<HomePage> {
             _buildOptionsCard(
               imageUrl: 'assets/ic_time_deposit.png',
               label: 'Time Deposit',
+              disabled: true
             ),
             _buildOptionsCard(
                 imageUrl: 'assets/ic_mutual_funds.png',
                 label: 'Mutual Funds',
-                onTap: () => Navigator.of(context).pushNamed(routeMutualFunds)),
+                onTap: () => _pushPageNamed(routeMutualFunds)),
           ],
         ),
         Row(
@@ -354,6 +355,7 @@ class _HomePageState extends State<HomePage> {
             _buildOptionsCard(
               imageUrl: 'assets/ic_bancassurance.png',
               label: 'Bancassurance',
+              disabled: true
             ),
           ],
         )
@@ -361,35 +363,38 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildOptionsCard({String imageUrl, String label, Function onTap}) {
+  Widget _buildOptionsCard({String imageUrl, String label, Function onTap, bool disabled = false}) {
     assert(imageUrl != null);
     return Expanded(
-      child: Card(
-        child: InkWell(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(0.0),
-            width: 100,
-            height: 100,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  imageUrl,
-                  width: 50,
-                  height: 50,
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Text(
-                  label,
-                  style: baseStyle,
-                  textAlign: TextAlign.center,
-                )
-              ],
+      child: Opacity(
+        opacity: disabled ? 0.5 : 1.0,
+              child: Card(
+          child: InkWell(
+            onTap: disabled ? null : onTap,
+            child: Container(
+              padding: const EdgeInsets.all(0.0),
+              width: 100,
+              height: 100,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    imageUrl,
+                    width: 50,
+                    height: 50,
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    label,
+                    style: baseStyle,
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -411,10 +416,21 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
-  void _pushPage(BuildContext context, Widget page) {
-    Navigator.of(context).push(MaterialPageRoute(
+  void _pushPage(BuildContext context, Widget page) async {
+    print('pushing page');
+    await Navigator.of(context).push(MaterialPageRoute(
       builder: (_) => page,
     ));
+
+    print('refreshing page');
+    BlocProvider.of<HomeBloc>(context).add(GetInterval());
+  }
+
+  void _pushPageNamed(String routeName) async {
+    print('pushing page');
+    await Navigator.of(context).pushNamed(routeName);
+    print('refreshing page');
+    BlocProvider.of<HomeBloc>(context).add(GetInterval());
   }
 
   bool _userHasNotification() {
