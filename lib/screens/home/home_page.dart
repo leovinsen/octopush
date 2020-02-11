@@ -9,6 +9,7 @@ import 'package:octopush/model/challenge.dart';
 import 'package:octopush/model/job.dart';
 import 'package:octopush/model/time_interval.dart';
 import 'package:octopush/routes.dart';
+import 'package:octopush/screens/home/widgets/qr_success_dialog.dart';
 import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/service/qr_service.dart';
@@ -190,14 +191,11 @@ class _HomePageState extends State<HomePage> {
                       ),
                   iconData: Icons.question_answer,
                   label: 'Who Wants to be a Jutawan'),
-              Builder(
-                ///We need to use non-Scaffold context to show SnackBar
-                builder: (BuildContext ctx) => ClickableLabel(
-                  onTap: () => _scanQR(ctx),
+              ClickableLabel(
+                  onTap: () => _scanQR(context),
                   iconData: Icons.camera_alt,
                   label: 'Scan QR',
                 ),
-              ),
               SizedBox(
                 height: 20.0,
               ),
@@ -216,13 +214,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _scanQR(BuildContext context) async {
     var qrService = QrService();
     await qrService.scan();
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Congrats! You received 500K IDR from QR Challenge!',
-          style: baseStyle,
-        ),
-      ),
+    showDialog(
+      context: context,
+      builder: (_) => QrSuccessDialog()
     );
   }
 
@@ -335,10 +329,9 @@ class _HomePageState extends State<HomePage> {
               onTap: () => _pushPage(context, OctoSaversPage()),
             ),
             _buildOptionsCard(
-              imageUrl: 'assets/ic_time_deposit.png',
-              label: 'Time Deposit',
-              disabled: true
-            ),
+                imageUrl: 'assets/ic_time_deposit.png',
+                label: 'Time Deposit',
+                disabled: true),
             _buildOptionsCard(
                 imageUrl: 'assets/ic_mutual_funds.png',
                 label: 'Mutual Funds',
@@ -353,22 +346,22 @@ class _HomePageState extends State<HomePage> {
               onTap: () => _pushPage(context, InstallmentPage()),
             ),
             _buildOptionsCard(
-              imageUrl: 'assets/ic_bancassurance.png',
-              label: 'Bancassurance',
-              disabled: true
-            ),
+                imageUrl: 'assets/ic_bancassurance.png',
+                label: 'Bancassurance',
+                disabled: true),
           ],
         )
       ],
     );
   }
 
-  Widget _buildOptionsCard({String imageUrl, String label, Function onTap, bool disabled = false}) {
+  Widget _buildOptionsCard(
+      {String imageUrl, String label, Function onTap, bool disabled = false}) {
     assert(imageUrl != null);
     return Expanded(
       child: Opacity(
         opacity: disabled ? 0.5 : 1.0,
-              child: Card(
+        child: Card(
           child: InkWell(
             onTap: disabled ? null : onTap,
             child: Container(
