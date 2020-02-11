@@ -40,6 +40,7 @@ class _RewardIndicatorState extends State<RewardIndicator> {
                 animation: true,
                 lineHeight: 25.0,
                 animationDuration: 1000,
+                animateFromLastPercent: true,
                 percent: _calculatePercent(),
                 center: Text(
                   _getWinningsText(),
