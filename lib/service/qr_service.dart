@@ -6,12 +6,12 @@ import 'package:qrscan/qrscan.dart' as scanner;
 class QrService {
   final _transactionRepository = TransactionRepository();
 
-  void scan() async {
+  Future<void> scan() async {
     String cameraScanResult = await scanner.scan();
     print(cameraScanResult);
 
     //We are not using the QR scan result, simply give the rewards 
-    _saveQrReward();
+    await _saveQrReward();
   }
 
   Future<void> _saveQrReward() async {

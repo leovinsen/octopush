@@ -182,10 +182,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                   iconData: Icons.question_answer,
                   label: 'Who Wants to be a Jutawan'),
-              ClickableLabel(
-                onTap: () => _scanQR(),
-                iconData: Icons.camera_alt,
-                label: 'Scan QR',
+              Builder(
+                ///We need to use non-Scaffold context to show SnackBar
+                builder: (BuildContext ctx) => ClickableLabel(
+                  onTap: () => _scanQR(ctx),
+                  iconData: Icons.camera_alt,
+                  label: 'Scan QR',
+                ),
               ),
               SizedBox(
                 height: 20.0,
@@ -202,9 +205,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _scanQR() {
+  Future<void> _scanQR(BuildContext context) async {
     var qrService = QrService();
-    qrService.scan();
+    await qrService.scan();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Congrats! You received 500K IDR from QR Challenge!',
+          style: baseStyle,
+        ),
+      ),
+    );
   }
 
   void _incrementInterval(BuildContext context) {
