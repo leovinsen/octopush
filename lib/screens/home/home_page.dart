@@ -34,6 +34,8 @@ class _HomePageState extends State<HomePage> {
   int day;
   String career;
   double balance;
+  double income = 0;
+  double expenses = 0;
 
   List<Challenge> challenges;
 
@@ -76,6 +78,8 @@ class _HomePageState extends State<HomePage> {
                 day = _calculateDay(state.interval);
                 challenges = state.challenges;
                 balance = state.trb;
+                expenses = state.nextExpenses;
+                income = state.nextIncome;
               });
             }
 
@@ -85,6 +89,8 @@ class _HomePageState extends State<HomePage> {
                 day = _calculateDay(state.interval);
                 challenges = state.challenges;
                 balance = state.trb;
+                expenses = state.nextExpenses;
+                income = state.nextIncome;
               });
 
               _showNotificationDayAdvanced(context, state.interval);
@@ -145,6 +151,8 @@ class _HomePageState extends State<HomePage> {
                 age: age,
                 career: career,
                 trb: balance,
+                income: income,
+                expenses: expenses,
               ),
               SizedBox(
                 height: 10.0,

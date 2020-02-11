@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:octopush/screens/home/widgets/income_expenses_info.dart';
 import 'package:octopush/screens/home/widgets/user_progress_indicator.dart';
 import 'package:octopush/styles.dart';
 import 'package:octopush/utils/currency_utils.dart';
@@ -7,8 +8,16 @@ class UserProfile extends StatelessWidget {
   final int age;
   final String career;
   final double trb;
+  final double income;
+  final double expenses;
 
-  const UserProfile({Key key, this.age, this.career, this.trb})
+  const UserProfile(
+      {Key key,
+      @required this.age,
+      @required this.career,
+      @required this.trb,
+      @required this.income,
+      @required this.expenses})
       : super(key: key);
 
   @override
@@ -34,12 +43,26 @@ class UserProfile extends StatelessWidget {
                       thickness: 1,
                     )),
                 Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child:
-                          _ProfileSegment(label: 'Your Career:', value: career),
-                    )),
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
+                      children: <Widget>[
+                        _ProfileSegment(
+                          label: 'Your Career:',
+                          value: career,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        IncomeExpensesInfo(
+                          income: income,
+                          expenses: expenses,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
             SizedBox(
@@ -91,7 +114,7 @@ class _TrbSegment extends StatelessWidget {
   int _getTier() {
     int million = 1000 * 1000;
 
-    if ( trb > 200 * million) return 3;
+    if (trb > 200 * million) return 3;
 
     if (trb > 50 * million) return 2;
 
