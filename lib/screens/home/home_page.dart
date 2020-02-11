@@ -13,7 +13,6 @@ import 'package:octopush/screens/notification_list_page.dart';
 import 'package:octopush/screens/quiz_challenge_page.dart';
 import 'package:octopush/service/qr_service.dart';
 import 'package:octopush/styles.dart';
-import 'package:octopush/utils/currency_utils.dart';
 import 'package:octopush/utils/date_utils.dart';
 import 'package:octopush/widgets/clickable_label.dart';
 import 'package:octopush/widgets/notification_button.dart';
@@ -22,6 +21,7 @@ import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 import '../installment_page.dart';
 import '../minesweeper_page.dart';
 import '../octo_savers_page.dart';
+import 'widgets/user_profile.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -141,7 +141,11 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 10.0,
               ),
-              _aboutUser(context),
+              UserProfile(
+                age: age,
+                career: career,
+                trb: balance,
+              ),
               SizedBox(
                 height: 10.0,
               ),
@@ -298,69 +302,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _aboutUser(BuildContext context) {
-    return Card(
-      elevation: 1.0,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child: _buildAboutYouSegment(
-                        label: 'Your Age:', value: '$age')),
-                Container(
-                    height: 50,
-                    child: VerticalDivider(
-                      indent: 5,
-                      endIndent: 5,
-                      color: accentColor,
-                      thickness: 1,
-                    )),
-                Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: _buildAboutYouSegment(
-                          label: 'Your Career:', value: career),
-                    )),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10.0),
-              child: balance == null
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : _buildAboutYouSegment(
-                      label: 'Your Current TRB:',
-                      value: CurrencyUtils.formatToIdr(balance)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAboutYouSegment({String label, String value}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: captionStyleAccent,
-        ),
-        Text(
-          value,
-          style: subtitleStyleAccent,
-        )
-      ],
     );
   }
 
