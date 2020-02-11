@@ -20,6 +20,7 @@ import 'package:octopush/widgets/notification_button.dart';
 import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 
 import '../installment_page.dart';
+import '../minesweeper_page.dart';
 import '../octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -162,14 +163,14 @@ class _HomePageState extends State<HomePage> {
                 iconData: Icons.calendar_today,
                 label: 'Advance day',
               ),
-              // ClickableLabel(
-              //   onTap: () => _pushPage(
-              //     context,
-              //     MinesweeperPage(),
-              //   ),
-              //   iconData: Icons.games,
-              //   label: 'Minesweeper',
-              // ),
+              ClickableLabel(
+                onTap: () => _pushPage(
+                  context,
+                  MinesweeperPage(),
+                ),
+                iconData: Icons.games,
+                label: 'Minesweeper',
+              ),
               ClickableLabel(
                   onTap: () => _pushPage(
                         context,
