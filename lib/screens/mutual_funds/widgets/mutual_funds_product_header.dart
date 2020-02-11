@@ -12,7 +12,7 @@ class MutualFundsProductHeader extends StatelessWidget {
           style: largeTextStyle.copyWith(fontWeight: FontWeight.bold),
         ),
         Text(
-          '% Yield YOY',
+          '5-yrs Hist. Yield',
           style: largeTextStyle.copyWith(fontWeight: FontWeight.bold),
         )
       ],
