@@ -6,7 +6,7 @@ import 'bloc/home/home_event.dart';
 import 'bloc/user_bloc.dart';
 import 'bloc/user_event.dart';
 import 'bloc/user_state.dart';
-import 'screens/home_page.dart';
+import 'screens/home/home_page.dart';
 import 'screens/registration_page.dart';
 
 class RootPage extends StatelessWidget {

@@ -19,8 +19,8 @@ import 'package:octopush/widgets/clickable_label.dart';
 import 'package:octopush/widgets/notification_button.dart';
 import 'package:octopush/widgets/yes_no_alert_dialog.dart';
 
-import 'installment_page.dart';
-import 'octo_savers_page.dart';
+import '../installment_page.dart';
+import '../octo_savers_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
