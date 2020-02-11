@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:octopush/styles.dart';
 
 class UserProgressIndicator extends StatelessWidget {
-  final int rank;
+  final int tier;
 
-  const UserProgressIndicator({Key key, this.rank})
-      : assert(rank != null),
+  const UserProgressIndicator({Key key, this.tier})
+      : assert(tier != null),
         super(key: key);
 
   @override
@@ -17,13 +17,13 @@ class UserProgressIndicator extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              'Current rank:',
+              'Current tier:',
               style: captionStyleAccent,
             ),
             Row(
               children: <Widget>[
                 Text(
-                  'Rank $rank',
+                  'Tier $tier',
                   style: subtitleStyleAccent,
                 ),
                 SizedBox(

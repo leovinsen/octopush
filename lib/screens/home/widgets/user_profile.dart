@@ -79,16 +79,16 @@ class _TrbSegment extends StatelessWidget {
               height: 10.0,
             ),
             UserProgressIndicator(
-              rank: _getRank(),
+              tier: _getTier(),
             ),
           ],
         ),
-        _getIcon(_getRank()),
+        _getIcon(_getTier()),
       ],
     );
   }
 
-  int _getRank() {
+  int _getTier() {
     int million = 1000 * 1000;
 
     if ( trb > 200 * million) return 3;
@@ -98,10 +98,10 @@ class _TrbSegment extends StatelessWidget {
     return 1;
   }
 
-  Widget _getIcon(int rank) {
+  Widget _getIcon(int tier) {
     String path;
 
-    switch (rank) {
+    switch (tier) {
       case 1:
         path = 'assets/ic_tier_1.png';
         break;
