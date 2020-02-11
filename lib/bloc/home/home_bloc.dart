@@ -16,6 +16,7 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   var _challengeRepository = ChallengeRepository();
   var _transactionRepository = TransactionRepository();
   TransactionService _transactionService;
+  TrbService _trbService = TrbService();
   var _incomeRepository = IncomeRepository();
 
   HomeBloc();
@@ -32,7 +33,7 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
           GameDataRepository(await SharedPreferences.getInstance());
 
     _transactionService =
-        TransactionService(_transactionRepository, TrbService());
+        TransactionService(_transactionRepository, _trbService);
 
     if (event is GetInterval) {
       var data = _gameDataRepository.getGameData();
@@ -40,7 +41,7 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
       var challenge = await _challengeRepository.getUntilInterval(interval);
 
-      var currentBalance = await calculateTRB();
+      var currentBalance = await _trbService.getTrb();
 
       var incomeExpenses = getNextIncomeAndExpenses(interval);
 
@@ -60,18 +61,13 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
       int interval = data.currentInterval.index;
 
+      _addIncomeAndExpenses(interval);
+
       var challenge = await _challengeRepository.getUntilInterval(interval);
 
-      var currentBalance = await calculateTRB();
+      var currentBalance = await _trbService.getTrb();
 
       var incomeExpenses = getNextIncomeAndExpenses(interval);
-
-      var currentIncomeAndExpenses = _getCurrentIncomeAndExpenses(interval);
-
-      _transactionService.addIncome(TimeInterval.values[interval],
-          currentIncomeAndExpenses[0].toDouble());
-      _transactionService.addExpenses(TimeInterval.values[interval],
-          currentIncomeAndExpenses[1].toDouble());
 
       yield HomeStateIncremented(
         interval,
@@ -81,6 +77,15 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
         incomeExpenses[1].toDouble(),
       );
     }
+  }
+
+  void _addIncomeAndExpenses(int interval){
+     var currentIncomeAndExpenses = _getCurrentIncomeAndExpenses(interval);
+
+      _transactionService.addIncome(TimeInterval.values[interval],
+          currentIncomeAndExpenses[0].toDouble());
+      _transactionService.addExpenses(TimeInterval.values[interval],
+          currentIncomeAndExpenses[1].toDouble());
   }
 
   List<int> getNextIncomeAndExpenses(int interval) {
@@ -96,15 +101,5 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
     return _incomeRepository
         .getIncomeAndExpensesFor(TimeInterval.values[interval]);
-  }
-
-  Future<double> calculateTRB() async {
-    var transactions = await _transactionRepository.getAllTranscation();
-
-    var trb = 0.0;
-
-    transactions.forEach((t) => trb += t.amount);
-
-    return trb;
   }
 }
