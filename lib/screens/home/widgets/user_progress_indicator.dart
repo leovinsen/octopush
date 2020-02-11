@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:octopush/screens/tier_detail/tier_detail_page.dart';
 import 'package:octopush/styles.dart';
 
 class UserProgressIndicator extends StatelessWidget {
   final int tier;
+  final double trb;
+  final String imagePath;
 
-  const UserProgressIndicator({Key key, this.tier})
+  const UserProgressIndicator({Key key, this.tier, this.trb, this.imagePath})
       : assert(tier != null),
         super(key: key);
 
@@ -29,10 +32,18 @@ class UserProgressIndicator extends StatelessWidget {
                 SizedBox(
                   width: 5.0,
                 ),
-                Icon(
-                  Icons.info,
-                  size: 25,
-                  color: Theme.of(context).accentColor,
+                GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => TierDetailPage(
+                          trb: trb, tier: tier, imagePath: imagePath),
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.info,
+                    size: 25.0,
+                    color: Theme.of(context).accentColor,
+                  ),
                 ),
               ],
             ),

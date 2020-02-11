@@ -103,6 +103,10 @@ class _TrbSegment extends StatelessWidget {
             ),
             UserProgressIndicator(
               tier: _getTier(),
+              trb: trb,
+              imagePath: _getIconPath(
+                _getTier(),
+              ),
             ),
           ],
         ),
@@ -122,25 +126,24 @@ class _TrbSegment extends StatelessWidget {
   }
 
   Widget _getIcon(int tier) {
-    String path;
-
-    switch (tier) {
-      case 1:
-        path = 'assets/ic_tier_1.png';
-        break;
-      case 2:
-        path = 'assets/ic_tier_2.png';
-        break;
-      case 3:
-        path = 'assets/ic_tier_3.png';
-        break;
-    }
-
     return Image.asset(
-      path,
+      _getIconPath(tier),
       width: 100,
       height: 100,
     );
+  }
+
+  String _getIconPath(int tier) {
+    switch (tier) {
+      case 1:
+        return 'assets/ic_tier_1.png';
+      case 2:
+        return 'assets/ic_tier_2.png';
+      case 3:
+        return 'assets/ic_tier_3.png';
+      default:
+        return null;
+    }
   }
 }
 
