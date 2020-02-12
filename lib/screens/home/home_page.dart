@@ -176,6 +176,7 @@ class _HomePageState extends State<HomePage> {
                 iconData: Icons.calendar_today,
                 label: 'Advance day',
               ),
+              SizedBox(height: 20.0,),
               ClickableLabel(
                 onTap: () => _pushPage(
                   context,

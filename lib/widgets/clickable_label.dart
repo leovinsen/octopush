@@ -14,10 +14,10 @@ class ClickableLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+    return Padding(
+      padding: const EdgeInsets.only(top:8.0),
+      child: InkWell(
+        onTap: onTap,
         child: SectionLabel(
           iconData: iconData,
           label: label,
