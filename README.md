@@ -1,16 +1,23 @@
 # octopush
 
-A new Flutter application.
+A prototype for a mobile game concept called 'Octopush' submitted by two of my friends for CIMB Niaga 2019 Annual Innovation Contest.
 
-## Getting Started
+**Disclaimer: This application is not affliated with CIMB Niaga in any means. All images used belong to their rightful owners.**
 
-This project is a starting point for a Flutter application.
+# Concept
 
-A few resources to get you started if this is your first Flutter project:
+Conceptually, the game puts players into a life simulator that lasts for 7 days in real lives and at the end each player will receive a score based on how well they performed. Players can: 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- purchase and sell assets such as Mutual Funds & Bonds,
+- buy an insurance policy for a rainy day,
+- grow their wealth by saving their earnings in a Time Deposit,
+- getting a housing or automobile loan,
+- and save their earnings in a Time Deposit.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+There are 14 turns in the game in which the players can perform aforementioned actions on top of responding to a unique event called a 'challenge'. Some of the challenges include:
+
+- playing minigames to earn money,
+- getting a bonus from your boss,
+- and having to pay emergency hospital fees.
+
+**Note: Many of the features are partially implemented or not implemented.**
