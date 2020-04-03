@@ -1,6 +1,9 @@
-# octopush
+# Octopush
 
-A prototype for a mobile game concept called 'Octopush' submitted by two of my friends for CIMB Niaga 2019 Annual Innovation Contest.
+A prototype for a mobile game concept called 'Octopush' submitted for CIMB Niaga 2019 Annual Innovation Contest. The concept is developed by:
+
+- <a href="https://www.linkedin.com/in/jonathan-marcell-11a99314a/">Jonathan Marcell</a> 
+- <a href="https://www.linkedin.com/in/lioni-widjaja-ab7223127/">Lioni Widjaja</a> 
 
 **Disclaimer: This application is not affliated with CIMB Niaga in any means. All images used belong to their rightful owners.**
 
